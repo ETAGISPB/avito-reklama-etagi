@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Подбор недвижимости — Этажи</title>
+    <!-- Шрифт Inter (современный, похож на используемый на etagi.com) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f5f5; /* fallback */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background-image: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            /* Фон с имитацией города (можно заменить на своё изображение) */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" opacity="0.15"><rect width="800" height="600" fill="%231a1a1a"/><path d="M0 400 L100 320 L200 360 L300 280 L400 340 L500 300 L600 380 L700 320 L800 370 L800 600 L0 600 Z" fill="%23e31e24" opacity="0.3"/><rect x="50" y="200" width="60" height="120" fill="%23ffffff" opacity="0.1"/><rect x="140" y="150" width="50" height="170" fill="%23ffffff" opacity="0.1"/><rect x="230" y="220" width="70" height="100" fill="%23ffffff" opacity="0.1"/><rect x="350" y="180" width="55" height="140" fill="%23ffffff" opacity="0.1"/><rect x="460" y="210" width="65" height="110" fill="%23ffffff" opacity="0.1"/><rect x="570" y="160" width="45" height="160" fill="%23ffffff" opacity="0.1"/><rect x="670" y="230" width="60" height="90" fill="%23ffffff" opacity="0.1"/></svg>');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+
+        /* ----- КОНТЕЙНЕР КАРТОЧКИ ----- */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 28px 24px 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            transition: opacity 0.3s ease;
+        }
+
+        /* ----- ШАПКА (логотип + прогресс) ----- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 16px;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #1a1a1a;
+        }
+        .logo span {
+            color: #e31e24;
+        }
+        .progress-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #777;
+        }
+        .progress-bar-bg {
+            width: 60px;
+            height: 6px;
+            background: #eaeaea;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #e31e24;
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        /* ----- ОБЩИЕ ЭЛЕМЕНТЫ ----- */
+        .step {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        .step-sub {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        /* ----- ВАРИАНТЫ ОТВЕТОВ (КНОПКИ) ----- */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .option-btn {
+            background: #f9f9f9;
+            border: 2px solid #eaeaea;
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-size: 17px;
+            font-weight: 500;
+            color: #1a1a1a;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .option-btn:active {
+            transform: scale(0.97);
+        }
+        .option-btn.selected {
+            border-color: #e31e24;
+            background: #fff5f5;
+            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.12);
+        }
+        .option-btn .icon {
+            font-size: 22px;
+        }
+
+        /* ----- ТЕКСТОВОЕ ПОЛЕ (для ввода) ----- */
+        .input-group {
+            margin-bottom: 24px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 16px 18px;
+            font-size: 16px;
+            border: 2px solid #eaeaea;
+            border-radius: 16px;
+            background: #fafafa;
+            transition: border 0.2s;
+            font-family: inherit;
+            outline: none;
+        }
+        .input-group input:focus,
+        .input-group textarea:focus {
+            border-color: #e31e24;
+            background: #ffffff;
+        }
+        .input-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        /* ----- ФИНАЛЬНЫЙ ЭКРАН ----- */
+        .final-icon {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .final-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .final-sub {
+            font-size: 15px;
+            color: #555;
+            text-align: center;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        /* ----- КНОПКА ОТПРАВКИ / ДАЛЕЕ ----- */
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #e31e24;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            text-align: center;
+            letter-spacing: 0.3px;
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+            background: #c4171c;
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* ----- УВЕДОМЛЕНИЕ ----- */
+        .toast {
+            display: none;
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+        .toast.error {
+            background: #ffebee;
+            color: #c62828;
+            border-left-color: #c62828;
+        }
+        .toast.show {
+            display: block;
+        }
+
+        /* ----- АДАПТИВ (мелкие правки) ----- */
+        @media (max-width: 400px) {
+            .container { padding: 20px 16px; }
+            .step-title { font-size: 20px; }
+        }
+        /* Убираем дефолтные стили для кнопок */
+        button { -webkit-appearance: none; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <!-- Шапка -->
+    <div class="header">
+        <div class="logo">Этажи <span>|</span> Недвижимость</div>
+        <div class="progress-wrap">
+            <span id="stepCounter">1/3</span>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ШАГ 1 ===== -->
+    <div class="step active" data-step="1">
+        <div class="step-title">Что вы хотите сделать?</div>
+        <div class="step-sub">Выберите цель, и мы подберём оптимальный вариант</div>
+        <div class="options" id="q1Options">
+            <button class="option-btn" data-value="buy"><span class="icon">🏢</span> Купить квартиру</button>
+            <button class="option-btn" data-value="sell"><span class="icon">💰</span> Продать квартиру</button>
+            <button class="option-btn" data-value="new"><span class="icon">🏗️</span> Купить новостройку</button>
+            <button class="option-btn" data-value="mtg"><span class="icon">🏦</span> Узнать про ипотеку</button>
+        </div>
+        <button class="btn-primary" id="toStep2" disabled>Далее</button>
+    </div>
+
+    <!-- ===== ШАГ 2 (зависит от ответа) ===== -->
+    <div class="step" data-step="2">
+        <div class="step-title" id="q2Title">Уточните детали</div>
+        <div class="step-sub" id="q2Sub">Это поможет нам дать точный ответ</div>
+        <div id="q2Container">
+            <!-- Сюда динамически вставляется содержимое второго вопроса -->
+        </div>
+        <button class="btn-primary" id="toStep3">Далее</button>
+    </div>
+
+    <!-- ===== ШАГ 3 (финал) ===== -->
+    <div class="step" data-step="3">
+        <div class="final-icon">🎯</div>
+        <div class="final-title">Отлично!</div>
+        <div class="final-sub">
+            Оставьте номер телефона, и наш эксперт пришлёт вам персональную подборку / расчёт в мессенджер в течение <strong>15 минут</strong>.
+        </div>
+        <div class="input-group">
+            <label for="phoneInput">Ваш номер телефона</label>
+            <input type="tel" id="phoneInput" placeholder="+7 (999) 123-45-67" required>
+        </div>
+        <button class="btn-primary" id="sendFinal">Отправить заявку</button>
+        <div class="toast" id="toastMessage"></div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        "use strict";
+
+        // ----- КОНФИГУРАЦИЯ (замените на свои данные) -----
+        const BOT_TOKEN = 'ВАШ_ТОКЕН_БОТА';   // Получить у @BotFather
+        const CHAT_ID = 'ВАШ_CHAT_ID';        // ID чата/группы/лички
+        // Если вы используете безопасный прокси (Vercel), укажите URL:
+        // const API_PROXY = 'https://ваш-версел-проект.vercel.app/api/send';
+        // тогда BOT_TOKEN и CHAT_ID можно не указывать здесь.
+
+        // ----- СОСТОЯНИЕ -----
+        let currentStep = 1;
+        const answers = {
+            q1: null,      // 'buy', 'sell', 'new', 'mtg'
+            q2: null       // строка или 'yes'/'no' для ипотеки
+        };
+
+        // DOM-элементы
+        const steps = document.querySelectorAll('.step');
+        const progressFill = document.getElementById('progressFill');
+        const stepCounter = document.getElementById('stepCounter');
+
+        const q1Options = document.getElementById('q1Options');
+        const toStep2Btn = document.getElementById('toStep2');
+        const q2Container = document.getElementById('q2Container');
+        const q2Title = document.getElementById('q2Title');
+        const q2Sub = document.getElementById('q2Sub');
+        const toStep3Btn = document.getElementById('toStep3');
+        const phoneInput = document.getElementById('phoneInput');
+        const sendFinalBtn = document.getElementById('sendFinal');
+        const toast = document.getElementById('toastMessage');
+
+        // ----- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ -----
+        function showStep(stepNum) {
+            steps.forEach((el, idx) => {
+                el.classList.toggle('active', (idx + 1) === stepNum);
+            });
+            currentStep = stepNum;
+            updateProgress(stepNum);
+        }
+
+        function updateProgress(stepNum) {
+            const total = 3;
+            const pct = ((stepNum - 1) / (total - 1)) * 100;
+            progressFill.style.width = pct + '%';
+            stepCounter.textContent = stepNum + '/' + total;
+        }
+
+        function showToast(text, isError = false) {
+            toast.textContent = text;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => { toast.className = 'toast'; }, 5000);
+        }
+
+        // ----- ОБРАБОТЧИК ДЛЯ ВАРИАНТОВ (шаг 1) -----
+        q1Options.addEventListener('click', function(e) {
+            const btn = e.target.closest('.option-btn');
+            if (!btn) return;
+            // снимаем выделение со всех
+            q1Options.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            answers.q1 = btn.dataset.value;
+            toStep2Btn.disabled = false;
+        });
+
+        // Переход к шагу 2
+        toStep2Btn.addEventListener('click', function() {
+            if (!answers.q1) return;
+            // строим второй вопрос
+            buildStep2(answers.q1);
+            showStep(2);
+        });
+
+        // Построение второго вопроса
+        function buildStep2(type) {
+            let html = '';
+            let title = '';
+            let sub = '';
+
+            switch (type) {
+                case 'buy':
+                    title = 'Какой район и бюджет?';
+                    sub = 'Укажите желаемый район и примерный бюджет, чтобы мы подобрали лучшие варианты';
+                    html = `
+                        <div class="input-group">
+                            <label for="q2Input">Район и бюджет</label>
+                            <input type="text" id="q2Input" placeholder="Например: Центр, до 15 млн ₽" value="${answers.q2 || ''}">
+                        </div>
+                    `;
+                    break;
+                case 'sell':
+                    title = 'Где находится квартира?';
+                    sub = 'Укажите адрес или район, чтобы мы оценили стоимость и предложили план продажи';
+                    html = `
+                        <div class="input-group">
+                            <label for="q2Input">Адрес квартиры</label>
+                            <input type="text" id="q2Input" placeholder="Например: ул. Ленина, д. 10" value="${answers.q2 || ''}">
+                        </div>
+                    `;
+                    break;
+                case 'new':
+                    title = 'Какой ЖК вас интересует?';
+                    sub = 'Мы поможем выбрать лучший вариант — укажите название ЖК или оставьте поле пустым для подбора';
+                    html = `
+                        <div class="input-group">
+                            <label for="q2Input">Название ЖК (или оставьте пустым)</label>
+                            <input type="text" id="q2Input" placeholder="Например: «Новая Охта»" value="${answers.q2 || ''}">
+                        </div>
+                    `;
+                    break;
+                case 'mtg':
+                    title = 'Вы уже одобрены?';
+                    sub = 'Ответьте, чтобы мы поняли, нужна ли вам полная консультация по ипотеке';
+                    html = `
+                        <div class="options" id="mtgOptions">
+                            <button class="option-btn" data-value="yes">✅ Да, уже одобрена</button>
+                            <button class="option-btn" data-value="no">❌ Нет, нужна помощь</button>
+                        </div>
+                    `;
+                    // Если уже выбран ответ, подсветим
+                    if (answers.q2) {
+                        document.querySelectorAll('#mtgOptions .option-btn').forEach(b => {
+                            if (b.dataset.value === answers.q2) b.classList.add('selected');
+                        });
+                    }
+                    break;
+                default: break;
+            }
+
+            q2Title.textContent = title;
+            q2Sub.textContent = sub;
+            q2Container.innerHTML = html;
+
+            // Если тип mtg, добавим обработчик на кнопки вариантов
+            if (type === 'mtg') {
+                const mtgContainer = document.getElementById('mtgOptions');
+                if (mtgContainer) {
+                    mtgContainer.addEventListener('click', function(e) {
+                        const btn = e.target.closest('.option-btn');
+                        if (!btn) return;
+                        mtgContainer.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        answers.q2 = btn.dataset.value;
+                        // Можно автоматически переходить на шаг 3? Но оставим через кнопку.
+                    });
+                }
+            } else {
+                // Для текстовых полей — сохраняем при вводе
+                const input = document.getElementById('q2Input');
+                if (input) {
+                    input.addEventListener('input', function() {
+                        answers.q2 = this.value.trim() || null;
+                    });
+                    // если уже есть значение, установим
+                    if (answers.q2) input.value = answers.q2;
+                }
+            }
+
+            // Отключаем переход на шаг 3, если еще нет ответа (кроме текстовых полей, там разрешим)
+            // Для текстовых полей — разрешаем всегда, но можно сделать проверку.
+            toStep3Btn.disabled = false;
+        }
+
+        // Переход к шагу 3 (финал)
+        toStep3Btn.addEventListener('click', function() {
+            // Для текстовых полей — если не заполнено, можно предупредить, но не блокировать
+            const type = answers.q1;
+            if (type === 'mtg') {
+                if (!answers.q2) {
+                    showToast('Пожалуйста, выберите один из вариантов', true);
+                    return;
+                }
+            } else {
+                // Для текстовых — если пусто, можно разрешить, но предупредим
+                const input = document.getElementById('q2Input');
+                if (input && !input.value.trim()) {
+                    if (!confirm('Вы оставили поле пустым. Продолжить?')) return;
+                    answers.q2 = null;
+                } else if (input) {
+                    answers.q2 = input.value.trim();
+                }
+            }
+            showStep(3);
+        });
+
+        // ----- ОТПРАВКА В TELEGRAM (финал) -----
+        sendFinalBtn.addEventListener('click', function() {
+            const phone = phoneInput.value.trim();
+            if (!phone) {
+                showToast('Пожалуйста, введите номер телефона', true);
+                phoneInput.focus();
+                return;
+            }
+            // Валидация (минимальная)
+            if (phone.length < 5) {
+                showToast('Введите корректный номер телефона', true);
+                return;
+            }
+
+            // Формируем сообщение
+            const typeMap = {
+                'buy': 'Купить квартиру',
+                'sell': 'Продать квартиру',
+                'new': 'Новостройка',
+                'mtg': 'Ипотека'
+            };
+            let msg = '🔹 *Новая заявка с сайта* 🔹\n\n';
+            msg += `📌 *Цель:* ${typeMap[answers.q1] || answers.q1}\n`;
+            if (answers.q1 === 'mtg') {
+                const status = answers.q2 === 'yes' ? 'Уже одобрена' : 'Нужна помощь';
+                msg += `📌 *Статус:* ${status}\n`;
+            } else {
+                msg += `📌 *Детали:* ${answers.q2 || 'не указано'}\n`;
+            }
+            msg += `📞 *Телефон:* ${phone}\n`;
+            msg += `🕒 ${new Date().toLocaleString()}`;
+
+            // Отправка
+            sendToTelegram(msg);
+        });
+
+        // Функция отправки в Telegram
+        function sendToTelegram(message) {
+            const token = BOT_TOKEN;
+            const chatId = CHAT_ID;
+
+            // Если вы используете прокси-сервер (рекомендуется), раскомментируйте и используйте его
+            // const url = API_PROXY; // тогда токен и чат-ид не нужны
+
+            // Прямая отправка (небезопасно, токен виден в коде)
+            const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+            const payload = {
+                chat_id: chatId,
+                text: message,
+                parse_mode: 'Markdown'
+            };
+
+            // Показываем индикацию
+            sendFinalBtn.disabled = true;
+            sendFinalBtn.textContent = 'Отправка...';
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Ошибка сети или API');
+                return res.json();
+            })
+            .then(data => {
+                if (data.ok) {
+                    showToast('✅ Заявка успешно отправлена! Эксперт свяжется с вами в ближайшее время.');
+                    // Очищаем форму или блокируем повторную отправку
+                    phoneInput.disabled = true;
+                    sendFinalBtn.disabled = true;
+                    sendFinalBtn.textContent = 'Отправлено';
+                } else {
+                    throw new Error(data.description || 'Неизвестная ошибка');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                showToast('❌ Не удалось отправить заявку. Пожалуйста, попробуйте позже или позвоните нам.', true);
+                sendFinalBtn.disabled = false;
+                sendFinalBtn.textContent = 'Отправить заявку';
+            });
+        }
+
+        // ----- ОБРАБОТКА ПАРАМЕТРА ?type=  (три версии) -----
+        function initFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const type = params.get('type');
+            // Если тип задан, автоматически выбираем ответ на 1-й вопрос и переходим к шагу 2
+            if (type && ['buy', 'sell', 'new', 'mtg'].includes(type)) {
+                answers.q1 = type;
+                // выделяем соответствующий вариант в первом вопросе (для красоты)
+                const btns = q1Options.querySelectorAll('.option-btn');
+                btns.forEach(b => {
+                    if (b.dataset.value === type) b.classList.add('selected');
+                });
+                toStep2Btn.disabled = false;
+                // Сразу строим второй вопрос и переключаем шаг
+                buildStep2(type);
+                showStep(2);
+            } else {
+                // Стартуем с первого вопроса
+                showStep(1);
+            }
+        }
+
+        // Дополнительно: если пользователь нажал назад в браузере, можно сбросить? но не обязательно
+
+        // ----- СТАРТ -----
+        initFromUrl();
+
+        // Для текстового поля на шаге 3 (номер телефона) — маска? можно простую форматировку, но оставляем как есть.
+
+        // Если пользователь переходит на шаг 2 из шага 1, и там есть текстовое поле, сохраняем значение при потере фокуса
+        // Но у нас уже есть обработчик input.
+
+        // Для поля телефона - можно добавить маску, но для простоты оставим.
+
+        console.log('Квиз загружен. Версии: ?type=buy | ?type=sell | ?type=new | ?type=mtg');
+    })();
+</script>
+</body>
+</html>
