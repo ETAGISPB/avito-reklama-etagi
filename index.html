@@ -782,29 +782,29 @@
         </div>
     </div>
 
-    <div class="step" data-step="3">
-        <div class="step-counter-text">Вопрос 3 из 6</div>
-        <div class="step-title">Бюджет и условия</div>
-        <div class="step-sub">Укажите примерный бюджет и дополнительные опции</div>
-        
-        <div class="input-group budget-input-wrapper">
-            <span class="input-icon">💰</span>
-            <label>Примерный бюджет <span class="optional">(необязательно)</span></label>
-            <input type="text" id="budgetInput" placeholder="Например: 15 000 000" inputmode="numeric">
-            <span class="currency-suffix">₽</span>
-        </div>
-
-        <div class="checkbox-group" id="mortgageCheckbox">
-            <input type="checkbox" id="mortgageNeeded">
-            <span class="checkmark"></span>
-            <span class="label-text">Нужна ипотека</span>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn-secondary" id="backToStep2">← Назад</button>
-            <button class="btn-primary" id="toStep4">Далее</button>
-        </div>
+   <div class="step" data-step="3">
+    <div class="step-counter-text">Вопрос 3 из 6</div>
+    <div class="step-title">Бюджет и условия</div>
+    <div class="step-sub">Укажите примерный бюджет и дополнительные опции</div>
+    
+    <div class="input-group budget-input-wrapper">
+        <span class="input-icon">💰</span>
+        <label>Примерный бюджет <span class="required">*</span></label>
+        <input type="text" id="budgetInput" placeholder="Например: 10 000 000" inputmode="numeric">
+        <span class="currency-suffix">₽</span>
     </div>
+
+    <div class="checkbox-group" id="mortgageCheckbox">
+        <input type="checkbox" id="mortgageNeeded">
+        <span class="checkmark"></span>
+        <span class="label-text">Нужна ипотека</span>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="btn-secondary" id="backToStep2">← Назад</button>
+        <button class="btn-primary" id="toStep4">Далее</button>
+    </div>
+</div>
 
     <div class="step" data-step="4">
         <div class="step-counter-text">Вопрос 4 из 6</div>
