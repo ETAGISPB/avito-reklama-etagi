@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Подбор недвижимости — Этажи</title>
-    <!-- Шрифт Inter (современный, похож на используемый на etagi.com) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
         /* ----- RESET & BASE ----- */
         * {
@@ -15,228 +14,529 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background: #f5f5f5; /* fallback */
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 16px;
-            background-image: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-            /* Фон с имитацией города (можно заменить на своё изображение) */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" opacity="0.15"><rect width="800" height="600" fill="%231a1a1a"/><path d="M0 400 L100 320 L200 360 L300 280 L400 340 L500 300 L600 380 L700 320 L800 370 L800 600 L0 600 Z" fill="%23e31e24" opacity="0.3"/><rect x="50" y="200" width="60" height="120" fill="%23ffffff" opacity="0.1"/><rect x="140" y="150" width="50" height="170" fill="%23ffffff" opacity="0.1"/><rect x="230" y="220" width="70" height="100" fill="%23ffffff" opacity="0.1"/><rect x="350" y="180" width="55" height="140" fill="%23ffffff" opacity="0.1"/><rect x="460" y="210" width="65" height="110" fill="%23ffffff" opacity="0.1"/><rect x="570" y="160" width="45" height="160" fill="%23ffffff" opacity="0.1"/><rect x="670" y="230" width="60" height="90" fill="%23ffffff" opacity="0.1"/></svg>');
-            background-size: cover;
-            background-position: center;
-            background-blend-mode: overlay;
+            background: #1a0a0a;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ----- ПЛАВАЮЩИЙ ГРАДИЕНТ ----- */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #8b0000 0%, #cc0000 25%, #ff6b6b 50%, #ffd4d4 75%, #ffffff 100%);
+            background-size: 400% 400%;
+            animation: gradientFlow 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ----- ДЕКОРАТИВНЫЕ ОРБЫ ----- */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: 0;
+            animation: orbFloat 20s ease-in-out infinite alternate;
+        }
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #ff1744;
+            top: -100px;
+            right: -100px;
+        }
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #ff6b6b;
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -5s;
+        }
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: #ffd4d4;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -10s;
+            opacity: 0.15;
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, -50px) scale(1.2); }
         }
 
         /* ----- КОНТЕЙНЕР КАРТОЧКИ ----- */
         .container {
             width: 100%;
-            max-width: 480px;
-            background: #ffffff;
+            max-width: 520px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 32px;
-            padding: 28px 24px 32px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            padding: 32px 28px 36px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
             position: relative;
-            transition: opacity 0.3s ease;
+            z-index: 1;
+            transition: transform 0.3s ease;
         }
 
-        /* ----- ШАПКА (логотип + прогресс) ----- */
+        /* ----- ШАПКА ----- */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 28px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 16px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid rgba(227, 30, 36, 0.15);
         }
         .logo {
-            font-size: 22px;
-            font-weight: 700;
+            font-size: 20px;
+            font-weight: 800;
             letter-spacing: -0.5px;
             color: #1a1a1a;
         }
         .logo span {
             color: #e31e24;
         }
+        .logo small {
+            font-size: 12px;
+            font-weight: 400;
+            color: #777;
+            display: block;
+            letter-spacing: 0.3px;
+        }
         .progress-wrap {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #777;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #888;
         }
         .progress-bar-bg {
-            width: 60px;
-            height: 6px;
+            width: 70px;
+            height: 4px;
             background: #eaeaea;
-            border-radius: 3px;
+            border-radius: 2px;
             overflow: hidden;
         }
         .progress-bar-fill {
             height: 100%;
             width: 0%;
-            background: #e31e24;
-            border-radius: 3px;
-            transition: width 0.4s ease;
+            background: linear-gradient(90deg, #e31e24, #ff6b6b);
+            border-radius: 2px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* ----- ОБЩИЕ ЭЛЕМЕНТЫ ----- */
         .step {
             display: none;
-            animation: fadeIn 0.3s ease;
+            animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .step.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .step-title {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
             color: #1a1a1a;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             line-height: 1.3;
         }
         .step-sub {
             font-size: 15px;
             color: #666;
             margin-bottom: 24px;
-            line-height: 1.4;
+            line-height: 1.5;
+        }
+        .step-sub strong {
+            color: #e31e24;
         }
 
-        /* ----- ВАРИАНТЫ ОТВЕТОВ (КНОПКИ) ----- */
+        /* ----- СЧЁТЧИК ШАГОВ (УЛУЧШЕНИЕ #3) ----- */
+        .step-counter-text {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e31e24;
+            background: rgba(227, 30, 36, 0.08);
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        /* ----- ВАРИАНТЫ ОТВЕТОВ С МИКРО-АНІМАЦИЕЙ (УЛУЧШЕНИЕ #1) ----- */
         .options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 24px;
         }
         .option-btn {
-            background: #f9f9f9;
-            border: 2px solid #eaeaea;
-            border-radius: 16px;
+            background: #f8f8f8;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
             padding: 16px 20px;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 500;
             color: #1a1a1a;
             text-align: left;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            position: relative;
         }
         .option-btn:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
         .option-btn.selected {
             border-color: #e31e24;
             background: #fff5f5;
-            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.12);
+            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.1);
+            transform: scale(1.02);
         }
         .option-btn .icon {
-            font-size: 22px;
+            font-size: 24px;
+            width: 32px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .option-btn.selected .icon {
+            transform: scale(1.15) rotate(-5deg);
+        }
+        .option-btn .check {
+            margin-left: auto;
+            color: #e31e24;
+            font-size: 20px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-btn.selected .check {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* Пульсация при выборе */
+        .option-btn.selected::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 16px;
+            border: 2px solid rgba(227, 30, 36, 0.2);
+            animation: pulseRing 0.8s ease-out;
+        }
+        @keyframes pulseRing {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1); opacity: 0; }
         }
 
-        /* ----- ТЕКСТОВОЕ ПОЛЕ (для ввода) ----- */
+        /* ----- ВЫПАДАЮЩИЙ СПИСОК С ИКОНКОЙ (УЛУЧШЕНИЕ #2) ----- */
+        .select-wrapper {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .select-wrapper select {
+            width: 100%;
+            padding: 16px 18px 16px 48px;
+            font-size: 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
+            background: #fafafa;
+            font-family: inherit;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            color: #1a1a1a;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .select-wrapper select:focus {
+            border-color: #e31e24;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
+        }
+        .select-wrapper .select-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .select-wrapper::after {
+            content: '▾';
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 18px;
+            pointer-events: none;
+            transition: transform 0.2s;
+        }
+        .select-wrapper select:focus + .select-icon {
+            color: #e31e24;
+        }
+        .select-wrapper label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 4px;
+        }
+        .select-wrapper label .optional {
+            font-weight: 400;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* ----- ТЕКСТОВЫЕ ПОЛЯ С ИКОНКАМИ (УЛУЧШЕНИЕ #2) ----- */
         .input-group {
-            margin-bottom: 24px;
+            position: relative;
+            margin-bottom: 16px;
         }
         .input-group label {
             display: block;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 6px;
+            color: #555;
+            margin-bottom: 4px;
+        }
+        .input-group label .optional {
+            font-weight: 400;
+            color: #999;
+            font-size: 12px;
+        }
+        .input-group .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            pointer-events: none;
+            color: #999;
+            transition: color 0.2s;
+        }
+        .input-group input:focus ~ .input-icon,
+        .input-group textarea:focus ~ .input-icon {
+            color: #e31e24;
         }
         .input-group input,
         .input-group textarea {
             width: 100%;
-            padding: 16px 18px;
+            padding: 16px 18px 16px 48px;
             font-size: 16px;
-            border: 2px solid #eaeaea;
-            border-radius: 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
             background: #fafafa;
-            transition: border 0.2s;
+            transition: all 0.2s;
             font-family: inherit;
             outline: none;
+            color: #1a1a1a;
         }
         .input-group input:focus,
         .input-group textarea:focus {
             border-color: #e31e24;
             background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
         }
         .input-group textarea {
             resize: vertical;
-            min-height: 60px;
+            min-height: 70px;
+            padding-top: 16px;
+        }
+        /* Для textarea иконка сверху */
+        .input-group textarea ~ .input-icon {
+            top: 22px;
+            transform: none;
         }
 
-        /* ----- ФИНАЛЬНЫЙ ЭКРАН ----- */
-        .final-icon {
-            font-size: 48px;
-            text-align: center;
-            margin-bottom: 8px;
+        /* ----- ЧЕКБОКС (кастомный) ----- */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            cursor: pointer;
         }
-        .final-title {
-            font-size: 24px;
+        .checkbox-group input[type="checkbox"] {
+            display: none;
+        }
+        .checkbox-group .checkmark {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            background: #fafafa;
+        }
+        .checkbox-group input:checked + .checkmark {
+            background: #e31e24;
+            border-color: #e31e24;
+            animation: checkPop 0.3s ease;
+        }
+        @keyframes checkPop {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .checkbox-group input:checked + .checkmark::after {
+            content: '✓';
+            color: white;
+            font-size: 16px;
             font-weight: 700;
-            color: #1a1a1a;
-            text-align: center;
-            margin-bottom: 6px;
         }
-        .final-sub {
+        .checkbox-group .label-text {
             font-size: 15px;
-            color: #555;
-            text-align: center;
-            margin-bottom: 24px;
-            line-height: 1.5;
+            font-weight: 500;
+            color: #1a1a1a;
         }
 
-        /* ----- КНОПКА ОТПРАВКИ / ДАЛЕЕ ----- */
+        /* ----- БЛОК С КНОПКАМИ ДА/НЕТ ----- */
+        .yesno-group {
+            display: flex;
+            gap: 12px;
+            margin: 16px 0 20px;
+        }
+        .yesno-btn {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
+            background: #f8f8f8;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: center;
+            color: #555;
+        }
+        .yesno-btn:active { transform: scale(0.96); }
+        .yesno-btn.selected-yes {
+            border-color: #2e7d32;
+            background: #e8f5e9;
+            color: #2e7d32;
+            transform: scale(1.03);
+            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+        }
+        .yesno-btn.selected-no {
+            border-color: #c62828;
+            background: #ffebee;
+            color: #c62828;
+            transform: scale(1.03);
+            box-shadow: 0 0 0 4px rgba(198, 40, 40, 0.1);
+        }
+
+        /* ----- КНОПКИ НАВИГАЦИИ ----- */
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
         .btn-primary {
-            display: block;
-            width: 100%;
+            flex: 1;
             padding: 18px;
             background: #e31e24;
             color: #ffffff;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             border: none;
-            border-radius: 16px;
+            border-radius: 14px;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
             letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        .btn-primary:active::after {
+            width: 300px;
+            height: 300px;
         }
         .btn-primary:active {
-            transform: scale(0.97);
-            background: #c4171c;
+            transform: scale(0.96);
         }
         .btn-primary:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             pointer-events: none;
         }
+        .btn-secondary {
+            padding: 18px 24px;
+            background: transparent;
+            color: #555;
+            font-size: 15px;
+            font-weight: 600;
+            border: 2px solid #ddd;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .btn-secondary:active {
+            transform: scale(0.96);
+            background: #f5f5f5;
+        }
 
-        /* ----- УВЕДОМЛЕНИЕ ----- */
+        /* ----- ТОСТ (уведомление) ----- */
         .toast {
             display: none;
             margin-top: 16px;
-            padding: 14px;
+            padding: 14px 18px;
             border-radius: 12px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
             text-align: center;
             background: #e8f5e9;
             color: #2e7d32;
             border-left: 4px solid #2e7d32;
+            animation: slideIn 0.3s ease;
         }
         .toast.error {
             background: #ffebee;
@@ -247,65 +547,255 @@
             display: block;
         }
 
-        /* ----- АДАПТИВ (мелкие правки) ----- */
-        @media (max-width: 400px) {
-            .container { padding: 20px 16px; }
-            .step-title { font-size: 20px; }
+        /* ----- ФИНАЛ (спасибо) с партиклами (УЛУЧШЕНИЕ #5) ----- */
+        .final-icon {
+            font-size: 64px;
+            text-align: center;
+            margin-bottom: 8px;
+            animation: bounceIcon 1.5s ease infinite;
         }
-        /* Убираем дефолтные стили для кнопок */
-        button { -webkit-appearance: none; }
+        @keyframes bounceIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .final-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .final-sub {
+            font-size: 15px;
+            color: #555;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        /* ----- МАСКА ВВОДА ТЕЛЕФОНА ----- */
+        .phone-input-wrapper {
+            position: relative;
+        }
+        .phone-input-wrapper input {
+            padding-left: 50px;
+        }
+        .phone-input-wrapper .prefix {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ----- КОНФЕТТИ (УЛУЧШЕНИЕ #5) ----- */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confettiFall linear forwards;
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ----- АДАПТИВ ----- */
+        @media (max-width: 440px) {
+            .container { padding: 24px 18px 28px; }
+            .step-title { font-size: 21px; }
+            .option-btn { padding: 14px 16px; font-size: 15px; }
+            .btn-primary { font-size: 16px; padding: 16px; }
+            .logo { font-size: 18px; }
+            .input-group input,
+            .input-group textarea,
+            .select-wrapper select {
+                font-size: 15px;
+                padding: 14px 16px 14px 44px;
+            }
+            .select-wrapper .select-icon,
+            .input-group .input-icon {
+                font-size: 16px;
+                left: 14px;
+            }
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] { -moz-appearance: textfield; }
     </style>
 </head>
 <body>
 
+<!-- Фоновый градиент -->
+<div class="gradient-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- Конфетти-контейнер -->
+<div class="confetti-container" id="confettiContainer"></div>
+
 <div class="container" id="app">
     <!-- Шапка -->
     <div class="header">
-        <div class="logo">Этажи <span>|</span> Недвижимость</div>
+        <div class="logo">
+            Этажи <span>|</span>
+            <small>Недвижимость</small>
+        </div>
         <div class="progress-wrap">
-            <span id="stepCounter">1/3</span>
+            <span id="stepCounter">1/6</span>
             <div class="progress-bar-bg">
                 <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
             </div>
         </div>
     </div>
 
-    <!-- ===== ШАГ 1 ===== -->
+    <!-- ===== ШАГ 1: Цель ===== -->
     <div class="step active" data-step="1">
+        <div class="step-counter-text">Вопрос 1 из 6</div>
         <div class="step-title">Что вы хотите сделать?</div>
         <div class="step-sub">Выберите цель, и мы подберём оптимальный вариант</div>
         <div class="options" id="q1Options">
-            <button class="option-btn" data-value="buy"><span class="icon">🏢</span> Купить квартиру</button>
-            <button class="option-btn" data-value="sell"><span class="icon">💰</span> Продать квартиру</button>
-            <button class="option-btn" data-value="new"><span class="icon">🏗️</span> Купить новостройку</button>
-            <button class="option-btn" data-value="mtg"><span class="icon">🏦</span> Узнать про ипотеку</button>
+            <button class="option-btn" data-value="buy"><span class="icon">🏢</span> Купить квартиру <span class="check">✓</span></button>
+            <button class="option-btn" data-value="sell"><span class="icon">💰</span> Продать квартиру <span class="check">✓</span></button>
+            <button class="option-btn" data-value="new"><span class="icon">🏗️</span> Купить новостройку <span class="check">✓</span></button>
+            <button class="option-btn" data-value="mtg"><span class="icon">🏦</span> Узнать про ипотеку <span class="check">✓</span></button>
         </div>
         <button class="btn-primary" id="toStep2" disabled>Далее</button>
     </div>
 
-    <!-- ===== ШАГ 2 (зависит от ответа) ===== -->
+    <!-- ===== ШАГ 2: Направление + Локация ===== -->
     <div class="step" data-step="2">
-        <div class="step-title" id="q2Title">Уточните детали</div>
-        <div class="step-sub" id="q2Sub">Это поможет нам дать точный ответ</div>
-        <div id="q2Container">
-            <!-- Сюда динамически вставляется содержимое второго вопроса -->
+        <div class="step-counter-text">Вопрос 2 из 6</div>
+        <div class="step-title">Где ищем?</div>
+        <div class="step-sub">Укажите направление и район (это поможет нам точнее подобрать варианты)</div>
+        
+        <div class="select-wrapper">
+            <span class="select-icon">🧭</span>
+            <label>Направление <span class="optional">(необязательно)</span></label>
+            <select id="directionSelect">
+                <option value="">Не выбрано</option>
+                <option value="north">Север</option>
+                <option value="south">Юг</option>
+                <option value="west">Запад</option>
+                <option value="east">Восток</option>
+            </select>
         </div>
-        <button class="btn-primary" id="toStep3">Далее</button>
+
+        <div class="input-group">
+            <span class="input-icon">📍</span>
+            <label>Район или локация <span class="optional">(необязательно)</span></label>
+            <input type="text" id="locationInput" placeholder="Например: Центр, Приморский р-н, или конкретный ЖК">
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-secondary" id="backToStep1">← Назад</button>
+            <button class="btn-primary" id="toStep3">Далее</button>
+        </div>
     </div>
 
-    <!-- ===== ШАГ 3 (финал) ===== -->
+    <!-- ===== ШАГ 3: Бюджет + Ипотека ===== -->
     <div class="step" data-step="3">
-        <div class="final-icon">🎯</div>
-        <div class="final-title">Отлично!</div>
-        <div class="final-sub">
-            Оставьте номер телефона, и наш эксперт пришлёт вам персональную подборку / расчёт в мессенджер в течение <strong>15 минут</strong>.
-        </div>
+        <div class="step-counter-text">Вопрос 3 из 6</div>
+        <div class="step-title">Бюджет и условия</div>
+        <div class="step-sub">Укажите примерный бюджет и дополнительные опции</div>
+        
         <div class="input-group">
-            <label for="phoneInput">Ваш номер телефона</label>
-            <input type="tel" id="phoneInput" placeholder="+7 (999) 123-45-67" required>
+            <span class="input-icon">💰</span>
+            <label>Примерный бюджет <span class="optional">(необязательно)</span></label>
+            <input type="text" id="budgetInput" placeholder="Например: до 15 млн ₽ или 100 000 ₽/м²">
         </div>
-        <button class="btn-primary" id="sendFinal">Отправить заявку</button>
+
+        <div class="checkbox-group" id="mortgageCheckbox">
+            <input type="checkbox" id="mortgageNeeded">
+            <span class="checkmark"></span>
+            <span class="label-text">Нужна ипотека</span>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-secondary" id="backToStep2">← Назад</button>
+            <button class="btn-primary" id="toStep4">Далее</button>
+        </div>
+    </div>
+
+    <!-- ===== ШАГ 4: Остались вопросы? ===== -->
+    <div class="step" data-step="4">
+        <div class="step-counter-text">Вопрос 4 из 6</div>
+        <div class="step-title">Остались ли у вас ещё вопросы?</div>
+        <div class="step-sub">Мы готовы ответить на всё, что вас интересует</div>
+        
+        <div class="yesno-group" id="questionsGroup">
+            <button class="yesno-btn" data-value="yes">✅ Да</button>
+            <button class="yesno-btn" data-value="no">❌ Нет</button>
+        </div>
+
+        <div id="commentBlock" style="display: none;">
+            <div class="input-group">
+                <span class="input-icon">✏️</span>
+                <label>Напишите ваш вопрос</label>
+                <textarea id="commentInput" placeholder="Опишите, что вас интересует..."></textarea>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-secondary" id="backToStep3">← Назад</button>
+            <button class="btn-primary" id="toStep5" disabled>Далее</button>
+        </div>
+    </div>
+
+    <!-- ===== ШАГ 5: Телефон ===== -->
+    <div class="step" data-step="5">
+        <div class="step-counter-text">Вопрос 5 из 6</div>
+        <div class="step-title">Почти готово! 📱</div>
+        <div class="step-sub">Оставьте номер, и наш эксперт свяжется с вами в течение <strong>15 минут</strong></div>
+        
+        <div class="input-group phone-input-wrapper">
+            <span class="input-icon">📞</span>
+            <label>Ваш номер телефона</label>
+            <span class="prefix">+7</span>
+            <input type="tel" id="phoneInput" placeholder="(999) 123-45-67" maxlength="15">
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-secondary" id="backToStep4">← Назад</button>
+            <button class="btn-primary" id="sendFinal">Отправить заявку</button>
+        </div>
         <div class="toast" id="toastMessage"></div>
+    </div>
+
+    <!-- ===== ШАГ 6: Спасибо (финал) ===== -->
+    <div class="step" data-step="6">
+        <div class="final-icon">🎉</div>
+        <div class="final-title">Спасибо за обращение!</div>
+        <div class="final-sub">
+            Наш специалист свяжется с вами в течение <strong>15 минут</strong>.<br>
+            Мы уже готовим для вас персональную подборку!
+        </div>
+        <div style="text-align: center; margin: 20px 0 16px;">
+            <span style="display: inline-block; padding: 8px 20px; background: #f5f5f5; border-radius: 20px; font-size: 14px; color: #666;">
+                ✉️ Копия заявки отправлена в Telegram
+            </span>
+        </div>
+        <button class="btn-primary" onclick="location.reload()">Пройти заново</button>
     </div>
 </div>
 
@@ -313,36 +803,49 @@
     (function() {
         "use strict";
 
-        // ----- КОНФИГУРАЦИЯ (замените на свои данные) -----
-const BOT_TOKEN = '8914089741:AAHEu4W3x7kHKN8ii90oDa42lE1hGcn2DbE';
-const CHAT_ID = '447069488';
-        // Если вы используете безопасный прокси (Vercel), укажите URL:
-        // const API_PROXY = 'https://ваш-версел-проект.vercel.app/api/send';
-        // тогда BOT_TOKEN и CHAT_ID можно не указывать здесь.
+        // ----- КОНФИГУРАЦИЯ -----
+        const BOT_TOKEN = '8914089741:AAHEu4W3x7kHKN8ii90oDa42lE1hGcn2DbE';
+        const CHAT_ID = '447069488';
 
         // ----- СОСТОЯНИЕ -----
         let currentStep = 1;
         const answers = {
-            q1: null,      // 'buy', 'sell', 'new', 'mtg'
-            q2: null       // строка или 'yes'/'no' для ипотеки
+            q1: null,
+            direction: '',
+            location: '',
+            budget: '',
+            mortgage: false,
+            hasQuestions: null,
+            comment: '',
+            phone: ''
         };
 
-        // DOM-элементы
+        // ----- DOM-элементы -----
         const steps = document.querySelectorAll('.step');
         const progressFill = document.getElementById('progressFill');
         const stepCounter = document.getElementById('stepCounter');
+        const toast = document.getElementById('toastMessage');
 
         const q1Options = document.getElementById('q1Options');
         const toStep2Btn = document.getElementById('toStep2');
-        const q2Container = document.getElementById('q2Container');
-        const q2Title = document.getElementById('q2Title');
-        const q2Sub = document.getElementById('q2Sub');
+        const directionSelect = document.getElementById('directionSelect');
+        const locationInput = document.getElementById('locationInput');
+        const backToStep1 = document.getElementById('backToStep1');
         const toStep3Btn = document.getElementById('toStep3');
+        const budgetInput = document.getElementById('budgetInput');
+        const mortgageCheckbox = document.getElementById('mortgageNeeded');
+        const backToStep2 = document.getElementById('backToStep2');
+        const toStep4Btn = document.getElementById('toStep4');
+        const questionsGroup = document.getElementById('questionsGroup');
+        const commentBlock = document.getElementById('commentBlock');
+        const commentInput = document.getElementById('commentInput');
+        const backToStep3 = document.getElementById('backToStep3');
+        const toStep5Btn = document.getElementById('toStep5');
         const phoneInput = document.getElementById('phoneInput');
+        const backToStep4 = document.getElementById('backToStep4');
         const sendFinalBtn = document.getElementById('sendFinal');
-        const toast = document.getElementById('toastMessage');
 
-        // ----- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ -----
+        // ----- ФУНКЦИИ НАВИГАЦИИ -----
         function showStep(stepNum) {
             steps.forEach((el, idx) => {
                 el.classList.toggle('active', (idx + 1) === stepNum);
@@ -352,9 +855,9 @@ const CHAT_ID = '447069488';
         }
 
         function updateProgress(stepNum) {
-            const total = 3;
+            const total = 6;
             const pct = ((stepNum - 1) / (total - 1)) * 100;
-            progressFill.style.width = pct + '%';
+            progressFill.style.width = Math.min(pct, 100) + '%';
             stepCounter.textContent = stepNum + '/' + total;
         }
 
@@ -364,191 +867,204 @@ const CHAT_ID = '447069488';
             setTimeout(() => { toast.className = 'toast'; }, 5000);
         }
 
-        // ----- ОБРАБОТЧИК ДЛЯ ВАРИАНТОВ (шаг 1) -----
+        // ----- КОНФЕТТИ (УЛУЧШЕНИЕ #5) -----
+        function launchConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#e31e24', '#ff6b6b', '#ffd4d4', '#ff1744', '#ff8a80', '#ffebee'];
+            const shapes = ['■', '●', '▲', '★', '♦'];
+            
+            for (let i = 0; i < 60; i++) {
+                const el = document.createElement('div');
+                el.className = 'confetti';
+                el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.color = colors[Math.floor(Math.random() * colors.length)];
+                el.style.fontSize = (Math.random() * 14 + 8) + 'px';
+                el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                el.style.animationDelay = (Math.random() * 1.5) + 's';
+                el.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+                container.appendChild(el);
+            }
+            
+            // Очищаем через 5 секунд
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // ----- ШАГ 1 -----
         q1Options.addEventListener('click', function(e) {
             const btn = e.target.closest('.option-btn');
             if (!btn) return;
-            // снимаем выделение со всех
             q1Options.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             answers.q1 = btn.dataset.value;
             toStep2Btn.disabled = false;
         });
 
-        // Переход к шагу 2
         toStep2Btn.addEventListener('click', function() {
             if (!answers.q1) return;
-            // строим второй вопрос
-            buildStep2(answers.q1);
             showStep(2);
         });
 
-        // Построение второго вопроса
-        function buildStep2(type) {
-            let html = '';
-            let title = '';
-            let sub = '';
+        // ----- ШАГ 2 -----
+        directionSelect.addEventListener('change', function() {
+            answers.direction = this.value;
+        });
+        locationInput.addEventListener('input', function() {
+            answers.location = this.value.trim();
+        });
 
-            switch (type) {
-                case 'buy':
-                    title = 'Какой район и бюджет?';
-                    sub = 'Укажите желаемый район и примерный бюджет, чтобы мы подобрали лучшие варианты';
-                    html = `
-                        <div class="input-group">
-                            <label for="q2Input">Район и бюджет</label>
-                            <input type="text" id="q2Input" placeholder="Например: Центр, до 15 млн ₽" value="${answers.q2 || ''}">
-                        </div>
-                    `;
-                    break;
-                case 'sell':
-                    title = 'Где находится квартира?';
-                    sub = 'Укажите адрес или район, чтобы мы оценили стоимость и предложили план продажи';
-                    html = `
-                        <div class="input-group">
-                            <label for="q2Input">Адрес квартиры</label>
-                            <input type="text" id="q2Input" placeholder="Например: ул. Ленина, д. 10" value="${answers.q2 || ''}">
-                        </div>
-                    `;
-                    break;
-                case 'new':
-                    title = 'Какой ЖК вас интересует?';
-                    sub = 'Мы поможем выбрать лучший вариант — укажите название ЖК или оставьте поле пустым для подбора';
-                    html = `
-                        <div class="input-group">
-                            <label for="q2Input">Название ЖК (или оставьте пустым)</label>
-                            <input type="text" id="q2Input" placeholder="Например: «Новая Охта»" value="${answers.q2 || ''}">
-                        </div>
-                    `;
-                    break;
-                case 'mtg':
-                    title = 'Вы уже одобрены?';
-                    sub = 'Ответьте, чтобы мы поняли, нужна ли вам полная консультация по ипотеке';
-                    html = `
-                        <div class="options" id="mtgOptions">
-                            <button class="option-btn" data-value="yes">✅ Да, уже одобрена</button>
-                            <button class="option-btn" data-value="no">❌ Нет, нужна помощь</button>
-                        </div>
-                    `;
-                    // Если уже выбран ответ, подсветим
-                    if (answers.q2) {
-                        document.querySelectorAll('#mtgOptions .option-btn').forEach(b => {
-                            if (b.dataset.value === answers.q2) b.classList.add('selected');
-                        });
-                    }
-                    break;
-                default: break;
-            }
-
-            q2Title.textContent = title;
-            q2Sub.textContent = sub;
-            q2Container.innerHTML = html;
-
-            // Если тип mtg, добавим обработчик на кнопки вариантов
-            if (type === 'mtg') {
-                const mtgContainer = document.getElementById('mtgOptions');
-                if (mtgContainer) {
-                    mtgContainer.addEventListener('click', function(e) {
-                        const btn = e.target.closest('.option-btn');
-                        if (!btn) return;
-                        mtgContainer.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-                        btn.classList.add('selected');
-                        answers.q2 = btn.dataset.value;
-                        // Можно автоматически переходить на шаг 3? Но оставим через кнопку.
-                    });
-                }
-            } else {
-                // Для текстовых полей — сохраняем при вводе
-                const input = document.getElementById('q2Input');
-                if (input) {
-                    input.addEventListener('input', function() {
-                        answers.q2 = this.value.trim() || null;
-                    });
-                    // если уже есть значение, установим
-                    if (answers.q2) input.value = answers.q2;
-                }
-            }
-
-            // Отключаем переход на шаг 3, если еще нет ответа (кроме текстовых полей, там разрешим)
-            // Для текстовых полей — разрешаем всегда, но можно сделать проверку.
-            toStep3Btn.disabled = false;
-        }
-
-        // Переход к шагу 3 (финал)
+        backToStep1.addEventListener('click', function() { showStep(1); });
         toStep3Btn.addEventListener('click', function() {
-            // Для текстовых полей — если не заполнено, можно предупредить, но не блокировать
-            const type = answers.q1;
-            if (type === 'mtg') {
-                if (!answers.q2) {
-                    showToast('Пожалуйста, выберите один из вариантов', true);
-                    return;
-                }
-            } else {
-                // Для текстовых — если пусто, можно разрешить, но предупредим
-                const input = document.getElementById('q2Input');
-                if (input && !input.value.trim()) {
-                    if (!confirm('Вы оставили поле пустым. Продолжить?')) return;
-                    answers.q2 = null;
-                } else if (input) {
-                    answers.q2 = input.value.trim();
-                }
-            }
+            answers.direction = directionSelect.value;
+            answers.location = locationInput.value.trim();
             showStep(3);
         });
 
-        // ----- ОТПРАВКА В TELEGRAM (финал) -----
+        // ----- ШАГ 3 -----
+        budgetInput.addEventListener('input', function() {
+            answers.budget = this.value.trim();
+        });
+        mortgageCheckbox.addEventListener('change', function() {
+            answers.mortgage = this.checked;
+        });
+
+        backToStep2.addEventListener('click', function() {
+            answers.budget = budgetInput.value.trim();
+            answers.mortgage = mortgageCheckbox.checked;
+            showStep(2);
+        });
+        toStep4Btn.addEventListener('click', function() {
+            answers.budget = budgetInput.value.trim();
+            answers.mortgage = mortgageCheckbox.checked;
+            showStep(4);
+        });
+
+        // ----- ШАГ 4 -----
+        questionsGroup.addEventListener('click', function(e) {
+            const btn = e.target.closest('.yesno-btn');
+            if (!btn) return;
+            questionsGroup.querySelectorAll('.yesno-btn').forEach(b => {
+                b.classList.remove('selected-yes', 'selected-no');
+            });
+            const value = btn.dataset.value;
+            if (value === 'yes') {
+                btn.classList.add('selected-yes');
+                commentBlock.style.display = 'block';
+                answers.hasQuestions = 'yes';
+            } else {
+                btn.classList.add('selected-no');
+                commentBlock.style.display = 'none';
+                answers.hasQuestions = 'no';
+                answers.comment = '';
+            }
+            toStep5Btn.disabled = false;
+        });
+
+        commentInput.addEventListener('input', function() {
+            answers.comment = this.value.trim();
+        });
+
+        backToStep3.addEventListener('click', function() {
+            answers.hasQuestions = null;
+            answers.comment = commentInput.value.trim();
+            showStep(3);
+        });
+        toStep5Btn.addEventListener('click', function() {
+            if (!answers.hasQuestions) {
+                showToast('Пожалуйста, ответьте на вопрос', true);
+                return;
+            }
+            answers.comment = commentInput.value.trim();
+            showStep(5);
+        });
+
+        // ----- ШАГ 5: Маска телефона -----
+        phoneInput.addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length > 10) value = value.slice(0, 10);
+            
+            let formatted = '';
+            if (value.length > 0) {
+                formatted += '(' + value.slice(0, 3);
+                if (value.length > 3) {
+                    formatted += ') ' + value.slice(3, 6);
+                    if (value.length > 6) {
+                        formatted += '-' + value.slice(6, 8);
+                        if (value.length > 8) {
+                            formatted += '-' + value.slice(8, 10);
+                        }
+                    }
+                }
+            }
+            this.value = formatted;
+            answers.phone = value;
+        });
+
+        phoneInput.addEventListener('focus', function() {
+            if (this.value === '') {
+                this.value = '(';
+            }
+        });
+
+        backToStep4.addEventListener('click', function() {
+            answers.phone = phoneInput.value.replace(/\D/g, '');
+            showStep(4);
+        });
+
+        // ----- ОТПРАВКА -----
         sendFinalBtn.addEventListener('click', function() {
-            const phone = phoneInput.value.trim();
-            if (!phone) {
-                showToast('Пожалуйста, введите номер телефона', true);
+            const rawPhone = phoneInput.value.replace(/\D/g, '');
+            if (rawPhone.length !== 10) {
+                showToast('Введите корректный номер телефона (10 цифр)', true);
                 phoneInput.focus();
                 return;
             }
-            // Валидация (минимальная)
-            if (phone.length < 5) {
-                showToast('Введите корректный номер телефона', true);
-                return;
-            }
+            answers.phone = rawPhone;
 
-            // Формируем сообщение
             const typeMap = {
-                'buy': 'Купить квартиру',
-                'sell': 'Продать квартиру',
-                'new': 'Новостройка',
-                'mtg': 'Ипотека'
+                'buy': '🏢 Купить квартиру',
+                'sell': '💰 Продать квартиру',
+                'new': '🏗️ Новостройка',
+                'mtg': '🏦 Ипотека'
             };
+            const directionMap = {
+                'north': 'Север',
+                'south': 'Юг',
+                'west': 'Запад',
+                'east': 'Восток'
+            };
+
             let msg = '🔹 *Новая заявка с сайта* 🔹\n\n';
             msg += `📌 *Цель:* ${typeMap[answers.q1] || answers.q1}\n`;
-            if (answers.q1 === 'mtg') {
-                const status = answers.q2 === 'yes' ? 'Уже одобрена' : 'Нужна помощь';
-                msg += `📌 *Статус:* ${status}\n`;
-            } else {
-                msg += `📌 *Детали:* ${answers.q2 || 'не указано'}\n`;
+            if (answers.direction) {
+                msg += `🧭 *Направление:* ${directionMap[answers.direction] || answers.direction}\n`;
             }
-            msg += `📞 *Телефон:* ${phone}\n`;
+            if (answers.location) {
+                msg += `📍 *Локация:* ${answers.location}\n`;
+            }
+            if (answers.budget) {
+                msg += `💰 *Бюджет:* ${answers.budget}\n`;
+            }
+            msg += `🏦 *Ипотека:* ${answers.mortgage ? '✅ Нужна' : '❌ Не нужна'}\n`;
+            if (answers.hasQuestions === 'yes') {
+                msg += `❓ *Вопрос:* ${answers.comment || 'не указан'}\n`;
+            }
+            msg += `📞 *Телефон:* +7${answers.phone}\n`;
             msg += `🕒 ${new Date().toLocaleString()}`;
 
-            // Отправка
             sendToTelegram(msg);
         });
 
-        // Функция отправки в Telegram
         function sendToTelegram(message) {
-            const token = BOT_TOKEN;
-            const chatId = CHAT_ID;
-
-            // Если вы используете прокси-сервер (рекомендуется), раскомментируйте и используйте его
-            // const url = API_PROXY; // тогда токен и чат-ид не нужны
-
-            // Прямая отправка (небезопасно, токен виден в коде)
-            const url = `https://api.telegram.org/bot${token}/sendMessage`;
-
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
             const payload = {
-                chat_id: chatId,
+                chat_id: CHAT_ID,
                 text: message,
                 parse_mode: 'Markdown'
             };
 
-            // Показываем индикацию
             sendFinalBtn.disabled = true;
             sendFinalBtn.textContent = 'Отправка...';
 
@@ -558,63 +1074,45 @@ const CHAT_ID = '447069488';
                 body: JSON.stringify(payload)
             })
             .then(res => {
-                if (!res.ok) throw new Error('Ошибка сети или API');
+                if (!res.ok) throw new Error('Ошибка сети');
                 return res.json();
             })
             .then(data => {
                 if (data.ok) {
-                    showToast('✅ Заявка успешно отправлена! Эксперт свяжется с вами в ближайшее время.');
-                    // Очищаем форму или блокируем повторную отправку
-                    phoneInput.disabled = true;
-                    sendFinalBtn.disabled = true;
-                    sendFinalBtn.textContent = 'Отправлено';
+                    // Запускаем конфетти!
+                    launchConfetti();
+                    showStep(6);
                 } else {
-                    throw new Error(data.description || 'Неизвестная ошибка');
+                    throw new Error(data.description || 'Ошибка');
                 }
             })
             .catch(err => {
                 console.error(err);
-                showToast('❌ Не удалось отправить заявку. Пожалуйста, попробуйте позже или позвоните нам.', true);
+                showToast('❌ Ошибка отправки. Попробуйте ещё раз.', true);
                 sendFinalBtn.disabled = false;
                 sendFinalBtn.textContent = 'Отправить заявку';
             });
         }
 
-        // ----- ОБРАБОТКА ПАРАМЕТРА ?type=  (три версии) -----
+        // ----- ИНИЦИАЛИЗАЦИЯ -----
         function initFromUrl() {
             const params = new URLSearchParams(window.location.search);
             const type = params.get('type');
-            // Если тип задан, автоматически выбираем ответ на 1-й вопрос и переходим к шагу 2
             if (type && ['buy', 'sell', 'new', 'mtg'].includes(type)) {
                 answers.q1 = type;
-                // выделяем соответствующий вариант в первом вопросе (для красоты)
                 const btns = q1Options.querySelectorAll('.option-btn');
                 btns.forEach(b => {
                     if (b.dataset.value === type) b.classList.add('selected');
                 });
                 toStep2Btn.disabled = false;
-                // Сразу строим второй вопрос и переключаем шаг
-                buildStep2(type);
                 showStep(2);
             } else {
-                // Стартуем с первого вопроса
                 showStep(1);
             }
         }
 
-        // Дополнительно: если пользователь нажал назад в браузере, можно сбросить? но не обязательно
-
-        // ----- СТАРТ -----
         initFromUrl();
-
-        // Для текстового поля на шаге 3 (номер телефона) — маска? можно простую форматировку, но оставляем как есть.
-
-        // Если пользователь переходит на шаг 2 из шага 1, и там есть текстовое поле, сохраняем значение при потере фокуса
-        // Но у нас уже есть обработчик input.
-
-        // Для поля телефона - можно добавить маску, но для простоты оставим.
-
-        console.log('Квиз загружен. Версии: ?type=buy | ?type=sell | ?type=new | ?type=mtg');
+        console.log('✅ Квиз загружен. Версии: ?type=buy | ?type=sell | ?type=new | ?type=mtg');
     })();
 </script>
 </body>
