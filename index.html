@@ -240,46 +240,48 @@
             100% { transform: scale(1.1); opacity: 0; }
         }
 
-        .input-group {
+        /* ===== НОВАЯ СТРУКТУРА ПОЛЕЙ С ИКОНКАМИ ===== */
+        .field-wrapper {
             position: relative;
             margin-bottom: 16px;
         }
-        .input-group label {
+
+        .field-wrapper label {
             display: block;
             font-size: 13px;
             font-weight: 600;
             color: #555;
             margin-bottom: 4px;
         }
-        .input-group label .optional {
+
+        .field-wrapper label .optional {
             font-weight: 400;
             color: #999;
             font-size: 12px;
         }
-        .input-group label .required {
+
+        .field-wrapper label .required {
             color: #c62828;
         }
-        .input-group .input-icon {
+
+        .field-wrapper .field-icon {
             position: absolute;
-            left: 18px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px;
+            font-size: 20px;
             pointer-events: none;
             color: #999;
             transition: color 0.2s;
             z-index: 2;
-            margin-top: 5px;
             line-height: 1;
+            margin-top: 6px;
         }
-        .input-group input:focus ~ .input-icon,
-        .input-group textarea:focus ~ .input-icon {
-            color: #e31e24;
-        }
-        .input-group input,
-        .input-group textarea {
+
+        .field-wrapper input,
+        .field-wrapper select {
             width: 100%;
-            padding: 16px 18px 16px 48px;
+            padding: 16px 18px 16px 50px;
             font-size: 16px;
             border: 2px solid #e8e8e8;
             border-radius: 14px;
@@ -289,26 +291,59 @@
             outline: none;
             color: #1a1a1a;
         }
-        .input-group input:focus,
-        .input-group textarea:focus {
+
+        .field-wrapper input:focus,
+        .field-wrapper select:focus {
             border-color: #e31e24;
             background: #ffffff;
             box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
         }
-        .input-group textarea {
+
+        .field-wrapper input:focus ~ .field-icon,
+        .field-wrapper select:focus ~ .field-icon {
+            color: #e31e24;
+        }
+
+        .field-wrapper textarea {
+            width: 100%;
+            padding: 16px 18px 16px 50px;
+            font-size: 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
+            background: #fafafa;
+            transition: all 0.2s;
+            font-family: inherit;
+            outline: none;
+            color: #1a1a1a;
             resize: vertical;
             min-height: 70px;
             padding-top: 16px;
         }
-        .input-group textarea ~ .input-icon {
-            top: 22px;
-            transform: none;
+
+        .field-wrapper textarea:focus {
+            border-color: #e31e24;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
         }
 
-        .budget-input-wrapper {
-            position: relative;
+        .field-wrapper textarea:focus ~ .field-icon {
+            color: #e31e24;
         }
-        .budget-input-wrapper .currency-suffix {
+
+        .field-wrapper .error-text {
+            color: #c62828;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .field-wrapper .error-text.show {
+            display: block;
+        }
+
+        /* Бюджет с суффиксом */
+        .budget-wrapper .currency-suffix {
             position: absolute;
             right: 18px;
             top: 50%;
@@ -320,83 +355,19 @@
             z-index: 2;
             background: #fafafa;
             padding-left: 8px;
+            margin-top: 6px;
         }
-        .budget-input-wrapper input:focus ~ .currency-suffix {
+
+        .budget-wrapper input:focus ~ .currency-suffix {
             background: #ffffff;
         }
-        .budget-input-wrapper input {
+
+        .budget-wrapper input {
             padding-right: 40px;
         }
 
-        .select-wrapper {
-            position: relative;
-            margin-bottom: 16px;
-        }
-        .select-wrapper .select-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
-            pointer-events: none;
-            z-index: 2;
-            margin-top: 5px;
-            line-height: 1;
-        }
-        .select-wrapper select {
-            width: 100%;
-            padding: 16px 18px 16px 48px;
-            font-size: 16px;
-            border: 2px solid #e8e8e8;
-            border-radius: 14px;
-            background: #fafafa;
-            font-family: inherit;
-            outline: none;
-            appearance: none;
-            -webkit-appearance: none;
-            color: #1a1a1a;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .select-wrapper select:focus {
-            border-color: #e31e24;
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
-        }
-        .select-wrapper::after {
-            content: '▾';
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            font-size: 18px;
-            pointer-events: none;
-            transition: transform 0.2s;
-        }
-        .select-wrapper select:focus + .select-icon {
-            color: #e31e24;
-        }
-        .select-wrapper label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 4px;
-        }
-        .select-wrapper label .optional {
-            font-weight: 400;
-            color: #999;
-            font-size: 12px;
-        }
-
-        .two-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .phone-input-wrapper {
+        /* Телефон */
+        .phone-wrapper {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -405,30 +376,37 @@
             border-radius: 14px;
             transition: all 0.2s;
             padding: 0 4px 0 14px;
+            margin-bottom: 16px;
         }
-        .phone-input-wrapper:focus-within {
+
+        .phone-wrapper:focus-within {
             border-color: #e31e24;
             background: #ffffff;
             box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
         }
-        .phone-input-wrapper .phone-icon {
+
+        .phone-wrapper .phone-icon {
             font-size: 20px;
             color: #999;
             flex-shrink: 0;
             transition: color 0.2s;
-            margin-top: 2px;
             line-height: 1;
+            margin-top: 6px;
         }
-        .phone-input-wrapper:focus-within .phone-icon {
+
+        .phone-wrapper:focus-within .phone-icon {
             color: #e31e24;
         }
-        .phone-input-wrapper .prefix {
+
+        .phone-wrapper .prefix {
             font-size: 16px;
             font-weight: 600;
             color: #1a1a1a;
             flex-shrink: 0;
+            margin-top: 4px;
         }
-        .phone-input-wrapper input {
+
+        .phone-wrapper input {
             flex: 1;
             padding: 16px 14px 16px 4px;
             font-size: 16px;
@@ -439,9 +417,17 @@
             color: #1a1a1a;
             min-width: 0;
         }
-        .phone-input-wrapper input::placeholder {
+
+        .phone-wrapper input::placeholder {
             color: #aaa;
             font-weight: 400;
+        }
+
+        /* Две колонки */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
         .btn-primary {
@@ -461,6 +447,7 @@
             overflow: hidden;
             margin-top: 8px;
         }
+
         .btn-primary::after {
             content: '';
             position: absolute;
@@ -473,13 +460,16 @@
             transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
         }
+
         .btn-primary:active::after {
             width: 300px;
             height: 300px;
         }
+
         .btn-primary:active {
             transform: scale(0.96);
         }
+
         .btn-primary:disabled {
             opacity: 0.4;
             pointer-events: none;
@@ -498,11 +488,13 @@
             border-left: 4px solid #2e7d32;
             animation: slideIn 0.3s ease;
         }
+
         .toast.error {
             background: #ffebee;
             color: #c62828;
             border-left-color: #c62828;
         }
+
         .toast.show {
             display: block;
         }
@@ -513,10 +505,12 @@
             margin-bottom: 8px;
             animation: bounceIcon 1.5s ease infinite;
         }
+
         @keyframes bounceIcon {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+
         .final-title {
             font-size: 26px;
             font-weight: 800;
@@ -524,6 +518,7 @@
             text-align: center;
             margin-bottom: 6px;
         }
+
         .final-sub {
             font-size: 15px;
             color: #555;
@@ -542,6 +537,7 @@
             z-index: 100;
             overflow: hidden;
         }
+
         .confetti {
             position: absolute;
             width: 10px;
@@ -549,6 +545,7 @@
             top: -10px;
             animation: confettiFall linear forwards;
         }
+
         @keyframes confettiFall {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
@@ -559,6 +556,7 @@
             margin-top: 8px;
             padding-top: 16px;
         }
+
         .extra-fields.visible {
             display: block;
             animation: slideIn 0.3s ease;
@@ -570,12 +568,14 @@
             gap: 12px;
             margin: 0 0 16px 0;
         }
+
         .divider-line {
             flex: 1;
             border: none;
             height: 1px;
             background: linear-gradient(to right, transparent, #e31e24, transparent);
         }
+
         .divider-text {
             font-size: 12px;
             font-weight: 500;
@@ -589,16 +589,6 @@
             border-color: #c62828 !important;
             background: #fff5f5 !important;
         }
-        .error-text {
-            color: #c62828;
-            font-size: 13px;
-            font-weight: 500;
-            margin-top: 4px;
-            display: none;
-        }
-        .error-text.show {
-            display: block;
-        }
 
         @media (max-width: 440px) {
             .container { padding: 24px 18px 28px; }
@@ -606,31 +596,30 @@
             .option-btn { padding: 14px 16px; font-size: 15px; }
             .btn-primary { font-size: 16px; padding: 16px; }
             .logo { font-size: 18px; }
-            .input-group input,
-            .input-group textarea,
-            .select-wrapper select {
+            .field-wrapper input,
+            .field-wrapper select,
+            .field-wrapper textarea {
                 font-size: 15px;
                 padding: 14px 16px 14px 44px;
             }
-            .select-wrapper .select-icon,
-            .input-group .input-icon {
-                font-size: 16px;
+            .field-wrapper .field-icon {
+                font-size: 18px;
                 left: 14px;
             }
-            .phone-input-wrapper {
+            .phone-wrapper {
                 padding: 0 4px 0 10px;
             }
-            .phone-input-wrapper input {
+            .phone-wrapper input {
                 padding: 14px 10px 14px 4px;
                 font-size: 15px;
             }
-            .phone-input-wrapper .phone-icon {
-                font-size: 17px;
+            .phone-wrapper .phone-icon {
+                font-size: 18px;
             }
-            .budget-input-wrapper input {
+            .budget-wrapper input {
                 padding-right: 36px;
             }
-            .budget-input-wrapper .currency-suffix {
+            .budget-wrapper .currency-suffix {
                 font-size: 14px;
                 right: 14px;
             }
@@ -683,15 +672,16 @@
         <div class="step-title" id="formTitle">Оставьте контактные данные</div>
         <div class="step-sub" id="formSub">Наш эксперт свяжется с вами в течение <strong>15 минут</strong></div>
 
-        <!-- Обязательные поля -->
-        <div class="input-group">
-            <span class="input-icon">👤</span>
+        <!-- Имя -->
+        <div class="field-wrapper">
             <label>Ваше имя <span class="required">*</span></label>
             <input type="text" id="nameInput" placeholder="Например: Иван Петров">
+            <span class="field-icon">👤</span>
             <div class="error-text" id="nameError">Пожалуйста, укажите ваше имя</div>
         </div>
 
-        <div class="phone-input-wrapper">
+        <!-- Телефон -->
+        <div class="phone-wrapper">
             <span class="phone-icon">📞</span>
             <span class="prefix">+7</span>
             <input type="tel" id="phoneInput" placeholder="(999) 123-45-67" maxlength="15">
@@ -706,8 +696,8 @@
             </div>
 
             <div class="two-columns">
-                <div class="select-wrapper">
-                    <span class="select-icon">🏠</span>
+                <!-- Комнатность -->
+                <div class="field-wrapper">
                     <label>Комнатность <span class="optional">(необязательно)</span></label>
                     <select id="roomsSelect">
                         <option value="">Не выбрано</option>
@@ -716,21 +706,24 @@
                         <option value="3">3</option>
                         <option value="4+">4 и более</option>
                     </select>
+                    <span class="field-icon">🏠</span>
                 </div>
 
-                <div class="input-group budget-input-wrapper">
-                    <span class="input-icon">💰</span>
+                <!-- Бюджет -->
+                <div class="field-wrapper budget-wrapper">
                     <label>Бюджет <span class="optional">(необязательно)</span></label>
                     <input type="text" id="budgetInput" placeholder="10 000 000" inputmode="numeric">
+                    <span class="field-icon">💰</span>
                     <span class="currency-suffix">₽</span>
                 </div>
             </div>
 
+            <!-- Локация -->
             <div id="locationField" style="display: none;">
-                <div class="input-group">
-                    <span class="input-icon">📍</span>
+                <div class="field-wrapper">
                     <label>Локация <span class="optional">(необязательно)</span></label>
                     <input type="text" id="locationInput" placeholder="Например: Центр, Приморский р-н">
+                    <span class="field-icon">📍</span>
                 </div>
             </div>
         </div>
