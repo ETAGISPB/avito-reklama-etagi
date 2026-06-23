@@ -769,20 +769,48 @@
         const sendFinalBtn = document.getElementById('sendFinal');
         const formTitle = document.getElementById('formTitle');
         const formSub = document.getElementById('formSub');
+        const backToChoiceBtn = document.getElementById('backToChoice');
 
-        function showStep(stepNum) {
-            steps.forEach((el, idx) => {
-                el.classList.toggle('active', (idx + 1) === stepNum);
-            });
-            currentStep = stepNum;
-        }
+       function showStep(stepNum) {
+    steps.forEach((el, idx) => {
+        el.classList.toggle('active', (idx + 1) === stepNum);
+    });
+    currentStep = stepNum;
+    updateBackButton();
+}
 
+         function updateBackButton() {
+    if (currentStep === 2) {
+        backToChoiceBtn.classList.add('visible');
+    } else {
+        backToChoiceBtn.classList.remove('visible');
+    }
+}
+
+backToChoiceBtn.addEventListener('click', function() {
+    q1Options.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    selectedType = null;
+    answers.q1 = null;
+    
+    nameInput.value = '';
+    phoneInput.value = '';
+    budgetInput.value = '';
+    locationInput.value = '';
+    roomsSelect.value = '';
+    extraFields.classList.remove('visible');
+    
+    showStep(1);
+    updateBackButton();
+});
+        
         function showToast(text, isError) {
             toast.textContent = text;
             toast.className = 'toast show' + (isError ? ' error' : '');
             setTimeout(() => { toast.className = 'toast'; }, 5000);
         }
 
+       
+        
         function launchConfetti() {
             const container = document.getElementById('confettiContainer');
             const colors = ['#e31e24', '#ff6b6b', '#ffd4d4', '#ff1744', '#ff8a80', '#ffebee'];
