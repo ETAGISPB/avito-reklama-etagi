@@ -1054,18 +1054,24 @@
             showStep(2);
         });
         
-        toStep4Btn.addEventListener('click', function() {
-            answers.budget = budgetInput.value;
-            if (!answers.budget) {
-                budgetInput.classList.add('field-error');
-                showToast('Пожалуйста, укажите примерный бюджет', true);
-                budgetInput.focus();
-                return;
-            }
-            budgetInput.classList.remove('field-error');
-            answers.mortgage = mortgageInput.checked;
-            showStep(4);
-        });
+       toStep4Btn.addEventListener('click', function() {
+    // Явно читаем значение из поля, удаляем пробелы
+    const budgetValue = budgetInput.value.replace(/\s/g, '');
+    answers.budget = budgetValue;
+    answers.mortgage = mortgageInput.checked;
+
+    // Проверяем, что поле не пустое
+    if (!budgetValue) {
+        budgetInput.classList.add('field-error');
+        showToast('Пожалуйста, укажите примерный бюджет', true);
+        budgetInput.focus();
+        return;
+    }
+
+    // Если всё заполнено — убираем ошибку и переходим дальше
+    budgetInput.classList.remove('field-error');
+    showStep(4);
+});
 
         questionsGroup.addEventListener('click', function(e) {
             const btn = e.target.closest('.yesno-btn');
