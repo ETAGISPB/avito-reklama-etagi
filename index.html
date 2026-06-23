@@ -121,28 +121,6 @@
             display: block;
             letter-spacing: 0.3px;
         }
-        .progress-wrap {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #888;
-        }
-        .progress-bar-bg {
-            width: 70px;
-            height: 4px;
-            background: #eaeaea;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #e31e24, #ff6b6b);
-            border-radius: 2px;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
 
         .step {
             display: none;
@@ -172,17 +150,6 @@
         }
         .step-sub strong {
             color: #e31e24;
-        }
-
-        .step-counter-text {
-            display: inline-block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #e31e24;
-            background: rgba(227, 30, 36, 0.08);
-            padding: 4px 14px;
-            border-radius: 20px;
-            margin-bottom: 12px;
         }
 
         .options {
@@ -248,66 +215,6 @@
         @keyframes pulseRing {
             0% { transform: scale(1); opacity: 1; }
             100% { transform: scale(1.1); opacity: 0; }
-        }
-
-        .select-wrapper {
-            position: relative;
-            margin-bottom: 16px;
-        }
-        .select-wrapper select {
-            width: 100%;
-            padding: 16px 18px 16px 48px;
-            font-size: 16px;
-            border: 2px solid #e8e8e8;
-            border-radius: 14px;
-            background: #fafafa;
-            font-family: inherit;
-            outline: none;
-            appearance: none;
-            -webkit-appearance: none;
-            color: #1a1a1a;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .select-wrapper select:focus {
-            border-color: #e31e24;
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
-        }
-        .select-wrapper .select-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
-            pointer-events: none;
-            z-index: 2;
-        }
-        .select-wrapper::after {
-            content: '▾';
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            font-size: 18px;
-            pointer-events: none;
-            transition: transform 0.2s;
-        }
-        .select-wrapper select:focus + .select-icon {
-            color: #e31e24;
-        }
-        .select-wrapper label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 4px;
-        }
-        .select-wrapper label .optional {
-            font-weight: 400;
-            color: #999;
-            font-size: 12px;
         }
 
         .input-group {
@@ -397,97 +304,120 @@
             padding-right: 40px;
         }
 
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            cursor: pointer;
-            user-select: none;
-        }
-        .checkbox-group input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-            pointer-events: none;
-        }
-        .checkbox-group .checkmark {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            background: #fafafa;
+        .select-wrapper {
             position: relative;
+            margin-bottom: 16px;
         }
-        .checkbox-group.active .checkmark {
-            background: #e31e24;
-            border-color: #e31e24;
-            animation: checkPop 0.3s ease;
-        }
-        @keyframes checkPop {
-            0% { transform: scale(0.8); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        .checkbox-group.active .checkmark::after {
-            content: '✓';
-            color: white;
+        .select-wrapper select {
+            width: 100%;
+            padding: 16px 18px 16px 48px;
             font-size: 16px;
-            font-weight: 700;
-        }
-        .checkbox-group .label-text {
-            font-size: 15px;
-            font-weight: 500;
-            color: #1a1a1a;
-        }
-
-        .yesno-group {
-            display: flex;
-            gap: 12px;
-            margin: 16px 0 20px;
-        }
-        .yesno-btn {
-            flex: 1;
-            padding: 14px;
             border: 2px solid #e8e8e8;
             border-radius: 14px;
-            background: #f8f8f8;
-            font-size: 16px;
-            font-weight: 600;
+            background: #fafafa;
+            font-family: inherit;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            color: #1a1a1a;
+            transition: all 0.2s;
             cursor: pointer;
-            transition: all 0.25s ease;
-            text-align: center;
+        }
+        .select-wrapper select:focus {
+            border-color: #e31e24;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
+        }
+        .select-wrapper .select-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .select-wrapper::after {
+            content: '▾';
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 18px;
+            pointer-events: none;
+            transition: transform 0.2s;
+        }
+        .select-wrapper select:focus + .select-icon {
+            color: #e31e24;
+        }
+        .select-wrapper label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
             color: #555;
+            margin-bottom: 4px;
         }
-        .yesno-btn:active { transform: scale(0.96); }
-        .yesno-btn.selected-yes {
-            border-color: #2e7d32;
-            background: #e8f5e9;
-            color: #2e7d32;
-            transform: scale(1.03);
-            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
-        }
-        .yesno-btn.selected-no {
-            border-color: #c62828;
-            background: #ffebee;
-            color: #c62828;
-            transform: scale(1.03);
-            box-shadow: 0 0 0 4px rgba(198, 40, 40, 0.1);
+        .select-wrapper label .optional {
+            font-weight: 400;
+            color: #999;
+            font-size: 12px;
         }
 
-        .nav-buttons {
-            display: flex;
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-top: 8px;
         }
-        .btn-primary {
+
+        .phone-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fafafa;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
+            transition: all 0.2s;
+            padding: 0 4px 0 14px;
+        }
+        .phone-input-wrapper:focus-within {
+            border-color: #e31e24;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
+        }
+        .phone-input-wrapper .phone-icon {
+            font-size: 20px;
+            color: #999;
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+        .phone-input-wrapper:focus-within .phone-icon {
+            color: #e31e24;
+        }
+        .phone-input-wrapper .prefix {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            flex-shrink: 0;
+        }
+        .phone-input-wrapper input {
             flex: 1;
+            padding: 16px 14px 16px 4px;
+            font-size: 16px;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-family: inherit;
+            color: #1a1a1a;
+            min-width: 0;
+        }
+        .phone-input-wrapper input::placeholder {
+            color: #aaa;
+            font-weight: 400;
+        }
+
+        .btn-primary {
+            width: 100%;
             padding: 18px;
             background: #e31e24;
             color: #ffffff;
@@ -501,6 +431,7 @@
             letter-spacing: 0.3px;
             position: relative;
             overflow: hidden;
+            margin-top: 8px;
         }
         .btn-primary::after {
             content: '';
@@ -536,7 +467,6 @@
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
-            flex-shrink: 0;
         }
         .btn-secondary:active {
             transform: scale(0.96);
@@ -590,52 +520,6 @@
             margin-bottom: 8px;
         }
 
-        .phone-input-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #fafafa;
-            border: 2px solid #e8e8e8;
-            border-radius: 14px;
-            transition: all 0.2s;
-            padding: 0 4px 0 14px;
-        }
-        .phone-input-wrapper:focus-within {
-            border-color: #e31e24;
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
-        }
-        .phone-input-wrapper .phone-icon {
-            font-size: 20px;
-            color: #999;
-            flex-shrink: 0;
-            transition: color 0.2s;
-        }
-        .phone-input-wrapper:focus-within .phone-icon {
-            color: #e31e24;
-        }
-        .phone-input-wrapper .prefix {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a1a1a;
-            flex-shrink: 0;
-        }
-        .phone-input-wrapper input {
-            flex: 1;
-            padding: 16px 14px 16px 4px;
-            font-size: 16px;
-            border: none;
-            background: transparent;
-            outline: none;
-            font-family: inherit;
-            color: #1a1a1a;
-            min-width: 0;
-        }
-        .phone-input-wrapper input::placeholder {
-            color: #aaa;
-            font-weight: 400;
-        }
-
         .confetti-container {
             position: fixed;
             top: 0;
@@ -656,6 +540,32 @@
         @keyframes confettiFall {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        .extra-fields {
+            display: none;
+            margin-top: 8px;
+            border-top: 1px solid #eee;
+            padding-top: 16px;
+        }
+        .extra-fields.visible {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .field-error {
+            border-color: #c62828 !important;
+            background: #fff5f5 !important;
+        }
+        .error-text {
+            color: #c62828;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 4px;
+            display: none;
+        }
+        .error-text.show {
+            display: block;
         }
 
         @media (max-width: 440px) {
@@ -692,6 +602,10 @@
                 font-size: 14px;
                 right: 14px;
             }
+            .two-columns {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
         }
 
         input::-webkit-outer-spin-button,
@@ -700,21 +614,6 @@
             margin: 0;
         }
         input[type=number] { -moz-appearance: textfield; }
-
-        .field-error {
-            border-color: #c62828 !important;
-            background: #fff5f5 !important;
-        }
-        .error-text {
-            color: #c62828;
-            font-size: 13px;
-            font-weight: 500;
-            margin-top: 4px;
-            display: none;
-        }
-        .error-text.show {
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -732,16 +631,10 @@
             Этажи <span>|</span>
             <small>Недвижимость</small>
         </div>
-        <div class="progress-wrap">
-            <span id="stepCounter">1/6</span>
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
-            </div>
-        </div>
     </div>
 
+    <!-- Шаг 1: Выбор цели -->
     <div class="step active" data-step="1">
-        <div class="step-counter-text">Вопрос 1 из 6</div>
         <div class="step-title">Что вы хотите сделать?</div>
         <div class="step-sub">Выберите цель, и мы подберём оптимальный вариант</div>
         <div class="options" id="q1Options">
@@ -750,92 +643,14 @@
             <button class="option-btn" data-value="new"><span class="icon">🏗️</span> Купить новостройку <span class="check">✓</span></button>
             <button class="option-btn" data-value="mtg"><span class="icon">🏦</span> Узнать про ипотеку <span class="check">✓</span></button>
         </div>
-        <button class="btn-primary" id="toStep2" disabled>Далее</button>
     </div>
 
+    <!-- Шаг 2: Форма -->
     <div class="step" data-step="2">
-        <div class="step-counter-text">Вопрос 2 из 6</div>
-        <div class="step-title">Где ищем?</div>
-        <div class="step-sub">Укажите направление и район (это поможет нам точнее подобрать варианты)</div>
-        
-        <div class="select-wrapper">
-            <span class="select-icon">🧭</span>
-            <label>Направление <span class="optional">(необязательно)</span></label>
-            <select id="directionSelect">
-                <option value="">Не выбрано</option>
-                <option value="north">Север</option>
-                <option value="south">Юг</option>
-                <option value="west">Запад</option>
-                <option value="east">Восток</option>
-            </select>
-        </div>
+        <div class="step-title" id="formTitle">Оставьте контактные данные</div>
+        <div class="step-sub" id="formSub">Наш эксперт свяжется с вами в течение <strong>15 минут</strong></div>
 
-        <div class="input-group">
-            <span class="input-icon">📍</span>
-            <label>Район или локация <span class="required">*</span></label>
-            <input type="text" id="locationInput" placeholder="Например: Центр, Приморский р-н, или конкретный ЖК">
-            <div class="error-text" id="locationError">Пожалуйста, укажите район или локацию</div>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn-secondary" id="backToStep1">← Назад</button>
-            <button class="btn-primary" id="toStep3">Далее</button>
-        </div>
-    </div>
-
-    <div class="step" data-step="3">
-        <div class="step-counter-text">Вопрос 3 из 6</div>
-        <div class="step-title">Бюджет и условия</div>
-        <div class="step-sub">Укажите примерный бюджет и дополнительные опции</div>
-        
-        <div class="input-group budget-input-wrapper">
-            <span class="input-icon">💰</span>
-            <label>Примерный бюджет <span class="required">*</span></label>
-            <input type="text" id="budgetInput" placeholder="Например: 10 000 000" inputmode="numeric">
-            <span class="currency-suffix">₽</span>
-        </div>
-
-        <div class="checkbox-group" id="mortgageCheckbox">
-            <input type="checkbox" id="mortgageNeeded">
-            <span class="checkmark"></span>
-            <span class="label-text">Нужна ипотека</span>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn-secondary" id="backToStep2">← Назад</button>
-            <button class="btn-primary" id="toStep4">Далее</button>
-        </div>
-    </div>
-
-    <div class="step" data-step="4">
-        <div class="step-counter-text">Вопрос 4 из 6</div>
-        <div class="step-title">Остались ли у вас ещё вопросы?</div>
-        <div class="step-sub">Мы готовы ответить на всё, что вас интересует</div>
-        
-        <div class="yesno-group" id="questionsGroup">
-            <button class="yesno-btn" data-value="yes">✅ Да</button>
-            <button class="yesno-btn" data-value="no">❌ Нет</button>
-        </div>
-
-        <div id="commentBlock" style="display: none;">
-            <div class="input-group">
-                <span class="input-icon">✏️</span>
-                <label>Напишите ваш вопрос</label>
-                <textarea id="commentInput" placeholder="Опишите, что вас интересует..."></textarea>
-            </div>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn-secondary" id="backToStep3">← Назад</button>
-            <button class="btn-primary" id="toStep5" disabled>Далее</button>
-        </div>
-    </div>
-
-    <div class="step" data-step="5">
-        <div class="step-counter-text">Вопрос 5 из 6</div>
-        <div class="step-title">Почти готово! 📱</div>
-        <div class="step-sub">Оставьте ваши контактные данные, и наш эксперт свяжется с вами в течение <strong>15 минут</strong></div>
-        
+        <!-- Обязательные поля -->
         <div class="input-group">
             <span class="input-icon">👤</span>
             <label>Ваше имя <span class="required">*</span></label>
@@ -849,14 +664,46 @@
             <input type="tel" id="phoneInput" placeholder="(999) 123-45-67" maxlength="15">
         </div>
 
-        <div class="nav-buttons">
-            <button class="btn-secondary" id="backToStep4">← Назад</button>
-            <button class="btn-primary" id="sendFinal">Отправить заявку</button>
+        <!-- Необязательные поля (появляются после заполнения имени и телефона) -->
+        <div class="extra-fields" id="extraFields">
+            <!-- Комнатность + Бюджет (всегда) -->
+            <div class="two-columns">
+                <div class="select-wrapper">
+                    <span class="select-icon">🏠</span>
+                    <label>Комнатность <span class="optional">(необязательно)</span></label>
+                    <select id="roomsSelect">
+                        <option value="">Не выбрано</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4+">4 и более</option>
+                    </select>
+                </div>
+
+                <div class="input-group budget-input-wrapper">
+                    <span class="input-icon">💰</span>
+                    <label>Бюджет <span class="optional">(необязательно)</span></label>
+                    <input type="text" id="budgetInput" placeholder="10 000 000" inputmode="numeric">
+                    <span class="currency-suffix">₽</span>
+                </div>
+            </div>
+
+            <!-- Локация (только для buy и sell) -->
+            <div id="locationField" style="display: none;">
+                <div class="input-group">
+                    <span class="input-icon">📍</span>
+                    <label>Локация <span class="optional">(необязательно)</span></label>
+                    <input type="text" id="locationInput" placeholder="Например: Центр, Приморский р-н">
+                </div>
+            </div>
         </div>
+
+        <button class="btn-primary" id="sendFinal">Отправить заявку</button>
         <div class="toast" id="toastMessage"></div>
     </div>
 
-    <div class="step" data-step="6">
+    <!-- Шаг 3: Спасибо -->
+    <div class="step" data-step="3">
         <div class="final-icon">🎉</div>
         <div class="final-title">Спасибо за обращение!</div>
         <div class="final-sub">
@@ -874,59 +721,37 @@
         "use strict";
 
         let currentStep = 1;
+        let selectedType = null;
         const answers = {
             q1: null,
-            direction: '',
-            location: '',
-            budget: '',
-            mortgage: false,
-            hasQuestions: null,
-            comment: '',
             name: '',
-            phone: ''
+            phone: '',
+            rooms: '',
+            budget: '',
+            location: ''
         };
 
         const steps = document.querySelectorAll('.step');
-        const progressFill = document.getElementById('progressFill');
-        const stepCounter = document.getElementById('stepCounter');
         const toast = document.getElementById('toastMessage');
 
         const q1Options = document.getElementById('q1Options');
-        const toStep2Btn = document.getElementById('toStep2');
-        const directionSelect = document.getElementById('directionSelect');
-        const locationInput = document.getElementById('locationInput');
-        const locationError = document.getElementById('locationError');
-        const backToStep1 = document.getElementById('backToStep1');
-        const toStep3Btn = document.getElementById('toStep3');
-        const budgetInput = document.getElementById('budgetInput');
-        const mortgageCheckbox = document.getElementById('mortgageCheckbox');
-        const mortgageInput = document.getElementById('mortgageNeeded');
-        const backToStep2 = document.getElementById('backToStep2');
-        const toStep4Btn = document.getElementById('toStep4');
-        const questionsGroup = document.getElementById('questionsGroup');
-        const commentBlock = document.getElementById('commentBlock');
-        const commentInput = document.getElementById('commentInput');
-        const backToStep3 = document.getElementById('backToStep3');
-        const toStep5Btn = document.getElementById('toStep5');
         const nameInput = document.getElementById('nameInput');
         const nameError = document.getElementById('nameError');
         const phoneInput = document.getElementById('phoneInput');
-        const backToStep4 = document.getElementById('backToStep4');
+        const extraFields = document.getElementById('extraFields');
+        const roomsSelect = document.getElementById('roomsSelect');
+        const budgetInput = document.getElementById('budgetInput');
+        const locationInput = document.getElementById('locationInput');
+        const locationField = document.getElementById('locationField');
         const sendFinalBtn = document.getElementById('sendFinal');
+        const formTitle = document.getElementById('formTitle');
+        const formSub = document.getElementById('formSub');
 
         function showStep(stepNum) {
             steps.forEach((el, idx) => {
                 el.classList.toggle('active', (idx + 1) === stepNum);
             });
             currentStep = stepNum;
-            updateProgress(stepNum);
-        }
-
-        function updateProgress(stepNum) {
-            const total = 6;
-            const pct = ((stepNum - 1) / (total - 1)) * 100;
-            progressFill.style.width = Math.min(pct, 100) + '%';
-            stepCounter.textContent = stepNum + '/' + total;
         }
 
         function showToast(text, isError) {
@@ -958,55 +783,96 @@
             }, 5000);
         }
 
+        function checkRequiredFields() {
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.replace(/\D/g, '');
+            return name.length >= 2 && phone.length === 10;
+        }
+
+        function toggleExtraFields() {
+            if (checkRequiredFields()) {
+                extraFields.classList.add('visible');
+            } else {
+                extraFields.classList.remove('visible');
+            }
+        }
+
+        function updateFormTexts() {
+            const typeMap = {
+                'buy': 'Купить квартиру',
+                'sell': 'Продать квартиру',
+                'new': 'Купить новостройку',
+                'mtg': 'Узнать про ипотеку'
+            };
+            formTitle.textContent = typeMap[selectedType] || 'Оставьте контактные данные';
+        }
+
+        function updateExtraFields() {
+            // Показываем/скрываем локацию
+            if (selectedType === 'buy' || selectedType === 'sell') {
+                locationField.style.display = 'block';
+            } else {
+                locationField.style.display = 'none';
+            }
+
+            // Для новостройки и ипотеки можно оставить только бюджет (комнатность уже есть)
+            if (selectedType === 'new' || selectedType === 'mtg') {
+                // Оставляем как есть
+            }
+        }
+
+        // Выбор цели
         q1Options.addEventListener('click', function(e) {
             const btn = e.target.closest('.option-btn');
             if (!btn) return;
             q1Options.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
-            answers.q1 = btn.dataset.value;
-            toStep2Btn.disabled = false;
-        });
+            selectedType = btn.dataset.value;
+            answers.q1 = selectedType;
 
-        toStep2Btn.addEventListener('click', function() {
-            if (!answers.q1) return;
+            updateFormTexts();
+            updateExtraFields();
             showStep(2);
         });
 
-        directionSelect.addEventListener('change', function() {
-            answers.direction = this.value;
-        });
-        locationInput.addEventListener('input', function() {
-            answers.location = this.value.trim();
+        // Имя
+        nameInput.addEventListener('input', function() {
             if (this.value.trim()) {
                 this.classList.remove('field-error');
-                locationError.classList.remove('show');
+                nameError.classList.remove('show');
+            }
+            toggleExtraFields();
+        });
+
+        // Телефон
+        phoneInput.addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length > 10) value = value.slice(0, 10);
+            
+            let formatted = '';
+            if (value.length > 0) {
+                formatted += '(' + value.slice(0, 3);
+                if (value.length > 3) {
+                    formatted += ') ' + value.slice(3, 6);
+                    if (value.length > 6) {
+                        formatted += '-' + value.slice(6, 8);
+                        if (value.length > 8) {
+                            formatted += '-' + value.slice(8, 10);
+                        }
+                    }
+                }
+            }
+            this.value = formatted;
+            toggleExtraFields();
+        });
+
+        phoneInput.addEventListener('focus', function() {
+            if (this.value === '') {
+                this.value = '(';
             }
         });
 
-        backToStep1.addEventListener('click', function() { showStep(1); });
-        toStep3Btn.addEventListener('click', function() {
-            answers.direction = directionSelect.value;
-            answers.location = locationInput.value.trim();
-            
-            if (!answers.location) {
-                locationInput.classList.add('field-error');
-                locationError.classList.add('show');
-                locationInput.focus();
-                return;
-            }
-            
-            locationInput.classList.remove('field-error');
-            locationError.classList.remove('show');
-            
-            answers.mortgage = mortgageInput.checked;
-            if (mortgageInput.checked) {
-                mortgageCheckbox.classList.add('active');
-            } else {
-                mortgageCheckbox.classList.remove('active');
-            }
-            showStep(3);
-        });
-
+        // Бюджет (маска)
         budgetInput.addEventListener('input', function() {
             let cursorPos = this.selectionStart;
             let rawValue = this.value.replace(/\s/g, '').replace(/[^0-9]/g, '');
@@ -1028,133 +894,26 @@
             this.value = formatted;
             answers.budget = formatted;
             
-            let newCursorPos = cursorPos;
             let diff = this.value.length - rawValue.length;
             if (diff > 0) {
-                newCursorPos = cursorPos + diff;
-            }
-            this.setSelectionRange(newCursorPos, newCursorPos);
-        });
-
-        mortgageCheckbox.addEventListener('click', function(e) {
-            mortgageInput.checked = !mortgageInput.checked;
-            this.classList.toggle('active', mortgageInput.checked);
-            answers.mortgage = mortgageInput.checked;
-            e.stopPropagation();
-        });
-
-        mortgageInput.addEventListener('change', function() {
-            mortgageCheckbox.classList.toggle('active', this.checked);
-            answers.mortgage = this.checked;
-        });
-
-        backToStep2.addEventListener('click', function() {
-            answers.budget = budgetInput.value;
-            answers.mortgage = mortgageInput.checked;
-            showStep(2);
-        });
-        
-       toStep4Btn.addEventListener('click', function() {
-    // Явно читаем значение из поля, удаляем пробелы
-    const budgetValue = budgetInput.value.replace(/\s/g, '');
-    answers.budget = budgetValue;
-    answers.mortgage = mortgageInput.checked;
-
-    // Проверяем, что поле не пустое
-    if (!budgetValue) {
-        budgetInput.classList.add('field-error');
-        showToast('Пожалуйста, укажите примерный бюджет', true);
-        budgetInput.focus();
-        return;
-    }
-
-    // Если всё заполнено — убираем ошибку и переходим дальше
-    budgetInput.classList.remove('field-error');
-    showStep(4);
-});
-
-        questionsGroup.addEventListener('click', function(e) {
-            const btn = e.target.closest('.yesno-btn');
-            if (!btn) return;
-            questionsGroup.querySelectorAll('.yesno-btn').forEach(b => {
-                b.classList.remove('selected-yes', 'selected-no');
-            });
-            const value = btn.dataset.value;
-            if (value === 'yes') {
-                btn.classList.add('selected-yes');
-                commentBlock.style.display = 'block';
-                answers.hasQuestions = 'yes';
-            } else {
-                btn.classList.add('selected-no');
-                commentBlock.style.display = 'none';
-                answers.hasQuestions = 'no';
-                answers.comment = '';
-            }
-            toStep5Btn.disabled = false;
-        });
-
-        commentInput.addEventListener('input', function() {
-            answers.comment = this.value.trim();
-        });
-
-        backToStep3.addEventListener('click', function() {
-            answers.hasQuestions = null;
-            answers.comment = commentInput.value.trim();
-            showStep(3);
-        });
-        toStep5Btn.addEventListener('click', function() {
-            if (!answers.hasQuestions) {
-                showToast('Пожалуйста, ответьте на вопрос', true);
-                return;
-            }
-            answers.comment = commentInput.value.trim();
-            showStep(5);
-        });
-
-        nameInput.addEventListener('input', function() {
-            answers.name = this.value.trim();
-            if (this.value.trim()) {
-                this.classList.remove('field-error');
-                nameError.classList.remove('show');
+                this.setSelectionRange(cursorPos + diff, cursorPos + diff);
             }
         });
 
-        phoneInput.addEventListener('input', function(e) {
-            let value = this.value.replace(/\D/g, '');
-            if (value.length > 10) value = value.slice(0, 10);
-            
-            let formatted = '';
-            if (value.length > 0) {
-                formatted += '(' + value.slice(0, 3);
-                if (value.length > 3) {
-                    formatted += ') ' + value.slice(3, 6);
-                    if (value.length > 6) {
-                        formatted += '-' + value.slice(6, 8);
-                        if (value.length > 8) {
-                            formatted += '-' + value.slice(8, 10);
-                        }
-                    }
-                }
-            }
-            this.value = formatted;
-            answers.phone = value;
+        // Сохранение данных
+        roomsSelect.addEventListener('change', function() {
+            answers.rooms = this.value;
         });
 
-        phoneInput.addEventListener('focus', function() {
-            if (this.value === '') {
-                this.value = '(';
-            }
+        locationInput.addEventListener('input', function() {
+            answers.location = this.value.trim();
         });
 
-        backToStep4.addEventListener('click', function() {
-            answers.name = nameInput.value.trim();
-            answers.phone = phoneInput.value.replace(/\D/g, '');
-            showStep(4);
-        });
-
+        // Отправка
         sendFinalBtn.addEventListener('click', function() {
-            answers.name = nameInput.value.trim();
-            if (!answers.name || answers.name.length < 2) {
+            // Проверка имени
+            const name = nameInput.value.trim();
+            if (!name || name.length < 2) {
                 nameInput.classList.add('field-error');
                 nameError.textContent = 'Пожалуйста, укажите ваше имя (минимум 2 символа)';
                 nameError.classList.add('show');
@@ -1164,42 +923,37 @@
             nameInput.classList.remove('field-error');
             nameError.classList.remove('show');
 
+            // Проверка телефона
             const rawPhone = phoneInput.value.replace(/\D/g, '');
             if (rawPhone.length !== 10) {
                 showToast('Введите корректный номер телефона (10 цифр)', true);
                 phoneInput.focus();
                 return;
             }
+
+            answers.name = name;
             answers.phone = rawPhone;
 
+            // Собираем сообщение
             const typeMap = {
                 'buy': '🏢 Купить квартиру',
                 'sell': '💰 Продать квартиру',
-                'new': '🏗️ Новостройка',
-                'mtg': '🏦 Ипотека'
-            };
-            const directionMap = {
-                'north': 'Север',
-                'south': 'Юг',
-                'west': 'Запад',
-                'east': 'Восток'
+                'new': '🏗️ Купить новостройку',
+                'mtg': '🏦 Узнать про ипотеку'
             };
 
             let msg = '🔹 *Новая заявка с сайта* 🔹\n\n';
             msg += '👤 *Имя:* ' + answers.name + '\n';
             msg += '📌 *Цель:* ' + (typeMap[answers.q1] || answers.q1) + '\n';
-            if (answers.direction) {
-                msg += '🧭 *Направление:* ' + (directionMap[answers.direction] || answers.direction) + '\n';
-            }
-            if (answers.location) {
-                msg += '📍 *Локация:* ' + answers.location + '\n';
+            
+            if (answers.rooms) {
+                msg += '🏠 *Комнатность:* ' + answers.rooms + '\n';
             }
             if (answers.budget) {
                 msg += '💰 *Бюджет:* ' + answers.budget + ' ₽\n';
             }
-            msg += '🏦 *Ипотека:* ' + (answers.mortgage ? '✅ Нужна' : '❌ Не нужна') + '\n';
-            if (answers.hasQuestions === 'yes') {
-                msg += '❓ *Вопрос:* ' + (answers.comment || 'не указан') + '\n';
+            if (answers.location) {
+                msg += '📍 *Локация:* ' + answers.location + '\n';
             }
             msg += '📞 *Телефон:* +7' + answers.phone + '\n';
             msg += '🕒 ' + new Date().toLocaleString();
@@ -1226,7 +980,7 @@
             .then(data => {
                 if (data.ok) {
                     launchConfetti();
-                    showStep(6);
+                    showStep(3);
                 } else {
                     throw new Error(data.description || 'Ошибка');
                 }
@@ -1243,12 +997,14 @@
             const params = new URLSearchParams(window.location.search);
             const type = params.get('type');
             if (type && ['buy', 'sell', 'new', 'mtg'].includes(type)) {
+                selectedType = type;
                 answers.q1 = type;
                 const btns = q1Options.querySelectorAll('.option-btn');
                 btns.forEach(b => {
                     if (b.dataset.value === type) b.classList.add('selected');
                 });
-                toStep2Btn.disabled = false;
+                updateFormTexts();
+                updateExtraFields();
                 showStep(2);
             } else {
                 showStep(1);
