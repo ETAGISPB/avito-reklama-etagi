@@ -122,6 +122,29 @@
             letter-spacing: 0.3px;
         }
 
+        .btn-back {
+            background: transparent;
+            border: none;
+            color: #e31e24;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            display: none;
+        }
+        .btn-back:hover {
+            background: rgba(227, 30, 36, 0.08);
+        }
+        .btn-back:active {
+            transform: scale(0.95);
+        }
+        .btn-back.visible {
+            display: block;
+        }
+
         .step {
             display: none;
             animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -246,7 +269,8 @@
             color: #999;
             transition: color 0.2s;
             z-index: 2;
-            margin-top: 1px;
+            margin-top: -2px;
+            line-height: 1;
         }
         .input-group input:focus ~ .input-icon,
         .input-group textarea:focus ~ .input-icon {
@@ -308,6 +332,17 @@
             position: relative;
             margin-bottom: 16px;
         }
+        .select-wrapper .select-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            pointer-events: none;
+            z-index: 2;
+            margin-top: -2px;
+            line-height: 1;
+        }
         .select-wrapper select {
             width: 100%;
             padding: 16px 18px 16px 48px;
@@ -327,15 +362,6 @@
             border-color: #e31e24;
             background: #fff;
             box-shadow: 0 0 0 4px rgba(227, 30, 36, 0.06);
-        }
-        .select-wrapper .select-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
-            pointer-events: none;
-            z-index: 2;
         }
         .select-wrapper::after {
             content: '▾';
@@ -390,6 +416,8 @@
             color: #999;
             flex-shrink: 0;
             transition: color 0.2s;
+            margin-top: -2px;
+            line-height: 1;
         }
         .phone-input-wrapper:focus-within .phone-icon {
             color: #e31e24;
@@ -455,22 +483,6 @@
         .btn-primary:disabled {
             opacity: 0.4;
             pointer-events: none;
-        }
-        .btn-secondary {
-            padding: 18px 24px;
-            background: transparent;
-            color: #555;
-            font-size: 15px;
-            font-weight: 600;
-            border: 2px solid #ddd;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-        .btn-secondary:active {
-            transform: scale(0.96);
-            background: #f5f5f5;
         }
 
         .toast {
@@ -545,12 +557,33 @@
         .extra-fields {
             display: none;
             margin-top: 8px;
-            border-top: 1px solid #eee;
             padding-top: 16px;
         }
         .extra-fields.visible {
             display: block;
             animation: slideIn 0.3s ease;
+        }
+
+        /* Разделитель обязательных и необязательных полей */
+        .optional-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 16px 0;
+        }
+        .divider-line {
+            flex: 1;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e31e24, transparent);
+        }
+        .divider-text {
+            font-size: 12px;
+            font-weight: 500;
+            color: #e31e24;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .field-error {
@@ -614,29 +647,6 @@
             margin: 0;
         }
         input[type=number] { -moz-appearance: textfield; }
-
-        .btn-back {
-    background: transparent;
-    border: none;
-    color: #e31e24;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 8px;
-    transition: all 0.2s;
-    font-family: 'Inter', sans-serif;
-    display: none;
-}
-.btn-back:hover {
-    background: rgba(227, 30, 36, 0.08);
-}
-.btn-back:active {
-    transform: scale(0.95);
-}
-.btn-back.visible {
-    display: block;
-}
     </style>
 </head>
 <body>
@@ -688,9 +698,14 @@
             <input type="tel" id="phoneInput" placeholder="(999) 123-45-67" maxlength="15">
         </div>
 
-        <!-- Необязательные поля (появляются после заполнения имени и телефона) -->
+        <!-- Необязательные поля -->
         <div class="extra-fields" id="extraFields">
-            <!-- Комнатность + Бюджет (всегда) -->
+            <div class="optional-divider">
+                <hr class="divider-line">
+                <span class="divider-text">Поля не обязательны к заполнению</span>
+                <hr class="divider-line">
+            </div>
+
             <div class="two-columns">
                 <div class="select-wrapper">
                     <span class="select-icon">🏠</span>
@@ -712,7 +727,6 @@
                 </div>
             </div>
 
-            <!-- Локация (только для buy и sell) -->
             <div id="locationField" style="display: none;">
                 <div class="input-group">
                     <span class="input-icon">📍</span>
@@ -772,46 +786,44 @@
         const formSub = document.getElementById('formSub');
         const backToChoiceBtn = document.getElementById('backToChoice');
 
-       function showStep(stepNum) {
-    steps.forEach((el, idx) => {
-        el.classList.toggle('active', (idx + 1) === stepNum);
-    });
-    currentStep = stepNum;
-    updateBackButton();
-}
+        function showStep(stepNum) {
+            steps.forEach((el, idx) => {
+                el.classList.toggle('active', (idx + 1) === stepNum);
+            });
+            currentStep = stepNum;
+            updateBackButton();
+        }
 
-         function updateBackButton() {
-    if (currentStep === 2) {
-        backToChoiceBtn.classList.add('visible');
-    } else {
-        backToChoiceBtn.classList.remove('visible');
-    }
-}
+        function updateBackButton() {
+            if (currentStep === 2) {
+                backToChoiceBtn.classList.add('visible');
+            } else {
+                backToChoiceBtn.classList.remove('visible');
+            }
+        }
 
-backToChoiceBtn.addEventListener('click', function() {
-    q1Options.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-    selectedType = null;
-    answers.q1 = null;
-    
-    nameInput.value = '';
-    phoneInput.value = '';
-    budgetInput.value = '';
-    locationInput.value = '';
-    roomsSelect.value = '';
-    extraFields.classList.remove('visible');
-    
-    showStep(1);
-    updateBackButton();
-});
-        
+        backToChoiceBtn.addEventListener('click', function() {
+            q1Options.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            selectedType = null;
+            answers.q1 = null;
+            
+            nameInput.value = '';
+            phoneInput.value = '';
+            budgetInput.value = '';
+            locationInput.value = '';
+            roomsSelect.value = '';
+            extraFields.classList.remove('visible');
+            
+            showStep(1);
+            updateBackButton();
+        });
+
         function showToast(text, isError) {
             toast.textContent = text;
             toast.className = 'toast show' + (isError ? ' error' : '');
             setTimeout(() => { toast.className = 'toast'; }, 5000);
         }
 
-       
-        
         function launchConfetti() {
             const container = document.getElementById('confettiContainer');
             const colors = ['#e31e24', '#ff6b6b', '#ffd4d4', '#ff1744', '#ff8a80', '#ffebee'];
@@ -860,16 +872,10 @@ backToChoiceBtn.addEventListener('click', function() {
         }
 
         function updateExtraFields() {
-            // Показываем/скрываем локацию
             if (selectedType === 'buy' || selectedType === 'sell') {
                 locationField.style.display = 'block';
             } else {
                 locationField.style.display = 'none';
-            }
-
-            // Для новостройки и ипотеки можно оставить только бюджет (комнатность уже есть)
-            if (selectedType === 'new' || selectedType === 'mtg') {
-                // Оставляем как есть
             }
         }
 
@@ -963,7 +969,6 @@ backToChoiceBtn.addEventListener('click', function() {
 
         // Отправка
         sendFinalBtn.addEventListener('click', function() {
-            // Проверка имени
             const name = nameInput.value.trim();
             if (!name || name.length < 2) {
                 nameInput.classList.add('field-error');
@@ -975,7 +980,6 @@ backToChoiceBtn.addEventListener('click', function() {
             nameInput.classList.remove('field-error');
             nameError.classList.remove('show');
 
-            // Проверка телефона
             const rawPhone = phoneInput.value.replace(/\D/g, '');
             if (rawPhone.length !== 10) {
                 showToast('Введите корректный номер телефона (10 цифр)', true);
@@ -986,7 +990,6 @@ backToChoiceBtn.addEventListener('click', function() {
             answers.name = name;
             answers.phone = rawPhone;
 
-            // Собираем сообщение
             const typeMap = {
                 'buy': '🏢 Купить квартиру',
                 'sell': '💰 Продать квартиру',
