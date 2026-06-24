@@ -699,12 +699,13 @@
                     <div class="field-wrapper">
                         <label>Комнатность</label>
                         <select id="roomsSelect">
-                            <option value="">Не выбрано</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4+">4 и более</option>
-                        </select>
+    <option value="">Не выбрано</option>
+    <option value="studio">Студия</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4+">4 и более</option>
+</select>
                         <span class="field-icon">🏠</span>
                     </div>
 
@@ -1091,43 +1092,49 @@
                 'mtg': '🏦 Узнать про ипотеку'
             };
 
-            let msg = '🔹 *Новая заявка с сайта* 🔹\n\n';
-            msg += '👤 *Имя:* ' + answers.name + '\n';
-            msg += '📌 *Цель:* ' + (typeMap[answers.q1] || answers.q1) + '\n';
-            
-            if (answers.rooms) {
-                msg += '🏠 *Комнатность:* ' + answers.rooms + '\n';
-            }
-            if (answers.budget) {
-                msg += '💰 *Бюджет:* ' + answers.budget + ' ₽\n';
-            }
-            if (answers.location) {
-                msg += '📍 *Локация:* ' + answers.location + '\n';
-            }
-            
-            if (answers.sellTiming) {
-                msg += '📅 *Сроки продажи:* ' + answers.sellTiming + '\n';
-            }
-            if (answers.meetingDeal) {
-                msg += '🤝 *Встречная сделка:* ' + (answers.meetingDeal === 'yes' ? '✅ Да' : '❌ Нет') + '\n';
-            }
-            
-            if (answers.initialPayment) {
-                msg += '💵 *Первоначальный взнос:* ' + answers.initialPayment + ' ₽\n';
-            }
-            if (answers.paymentFrom || answers.paymentTo) {
-                let payment = '📊 *Платеж в месяц:* ';
-                if (answers.paymentFrom) payment += 'от ' + answers.paymentFrom + ' ₽';
-                if (answers.paymentFrom && answers.paymentTo) payment += ' ';
-                if (answers.paymentTo) payment += 'до ' + answers.paymentTo + ' ₽';
-                msg += payment + '\n';
-            }
-            if (answers.propertyCost) {
-                msg += '🏠 *Стоимость недвижимости:* ' + answers.propertyCost + ' ₽\n';
-            }
-            
-            msg += '📞 *Телефон:* +7' + answers.phone + '\n';
-            msg += '🕒 ' + new Date().toLocaleString();
+           let msg = '🔹 *Новая заявка с сайта* 🔹\n\n';
+msg += '👤 *Имя:* ' + answers.name + '\n';
+msg += '📞 *Телефон:* +7' + answers.phone + '\n';
+msg += '📌 *Причина обращения:* ' + (typeMap[answers.q1] || answers.q1) + '\n';
+
+// Дополнительная информация (если заполнена)
+if (answers.rooms) {
+    const roomsMap = {
+        'studio': 'Студия',
+        '1': '1',
+        '2': '2',
+        '3': '3',
+        '4+': '4 и более'
+    };
+    msg += '🏠 *Комнатность:* ' + (roomsMap[answers.rooms] || answers.rooms) + '\n';
+}
+if (answers.budget) {
+    msg += '💰 *Бюджет:* ' + answers.budget + ' ₽\n';
+}
+if (answers.location) {
+    msg += '📍 *Локация:* ' + answers.location + '\n';
+}
+if (answers.sellTiming) {
+    msg += '📅 *Сроки продажи:* ' + answers.sellTiming + '\n';
+}
+if (answers.meetingDeal) {
+    msg += '🤝 *Встречная сделка:* ' + (answers.meetingDeal === 'yes' ? '✅ Да' : '❌ Нет') + '\n';
+}
+if (answers.initialPayment) {
+    msg += '💵 *Первоначальный взнос:* ' + answers.initialPayment + ' ₽\n';
+}
+if (answers.paymentFrom || answers.paymentTo) {
+    let payment = '📊 *Платеж в месяц:* ';
+    if (answers.paymentFrom) payment += 'от ' + answers.paymentFrom + ' ₽';
+    if (answers.paymentFrom && answers.paymentTo) payment += ' ';
+    if (answers.paymentTo) payment += 'до ' + answers.paymentTo + ' ₽';
+    msg += payment + '\n';
+}
+if (answers.propertyCost) {
+    msg += '🏠 *Стоимость недвижимости:* ' + answers.propertyCost + ' ₽\n';
+}
+
+msg += '🕒 ' + new Date().toLocaleString();
 
             sendToTelegram(msg);
         });
