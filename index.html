@@ -1095,7 +1095,7 @@
            let msg = '🔹 *Новая заявка с сайта* 🔹\n\n';
 msg += '👤 *Имя:* ' + answers.name + '\n';
 msg += '📞 *Телефон:* +7' + answers.phone + '\n';
-msg += '📌 *Причина обращения:* ' + (typeMap[answers.q1] || answers.q1) + '\n';
+msg += '📌 *Тип:* ' + (typeMap[answers.q1] || answers.q1) + '\n';
 
 // Дополнительная информация (если заполнена)
 if (answers.rooms) {
