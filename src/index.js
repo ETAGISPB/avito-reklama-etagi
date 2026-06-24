@@ -15,6 +15,7 @@ export default {
             });
         }
 
+        // Разрешаем только POST
         if (request.method !== 'POST') {
             console.log('❌ Не POST запрос:', request.method);
             return new Response('Method Not Allowed', {
@@ -30,17 +31,17 @@ export default {
             console.log('💬 Сообщение:', message);
 
             if (!message) {
-                console.log('⚠️ Сообщение пустое');
+                console.log('⚠️ Ошибка пустого');
                 return new Response(JSON.stringify({ error: 'Message is required' }), {
                     status: 400,
                     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
                 });
             }
 
-            console.log('🔑 Проверяем переменные окружения...');
+            // ======== ВАЖНО! Переменные окружения ========
+            console.log('🔑 Проверяем переменные...');
             const token = env.BOT_TOKEN;
             const chatId = env.CHAT_ID;
-
             console.log('   - BOT_TOKEN:', token ? '✅ установлен' : '❌ НЕ УСТАНОВЛЕН');
             console.log('   - CHAT_ID:', chatId ? '✅ установлен' : '❌ НЕ УСТАНОВЛЕН');
 
@@ -76,8 +77,6 @@ export default {
 
         } catch (error) {
             console.error('❌ Worker error:', error);
-            console.error('   - Сообщение:', error.message);
-            console.error('   - Стек:', error.stack);
             return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
                 status: 500,
                 headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
